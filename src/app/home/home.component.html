@@ -1,41 +1,124 @@
-<!-- NAVBAR -->
-<header class="navbar">
-    <h2>Acueducto Primavera</h2>
-    <nav>
-    <a routerLink="/">Inicio</a>
-    <a routerLink="/servicios">Servicios</a>
-    <a routerLink="/noticias">Noticias</a>
-    <a routerLink="/contacto">Contacto</a>
-</nav>
-</header>
-
-<!-- HERO -->
 <section class="hero">
-    <div class="hero-text">
-    <div class="hero-content">
-        <h1>El agua de vida</h1>
-        <p>Gestión eficiente del recurso hídrico</p>
-        <button>Ver más</button>
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <span class="hero-label">FACTURACIÓN EN SITIO</span>
+      <h1>MANANTIAL DE VIDA</h1>
+      <p>Aquí encontrarás servicios diseñados para tu vereda. Reinventa tu acueducto rural con tecnología de punta en facturación y recaudo.</p>
+      <div class="hero-actions">
+        <a routerLink="/clientes" class="btn btn-primary">CONSULTA Y PAGA TU FACTURA</a>
+        <a routerLink="/usuarios" class="btn btn-secondary">ADMINISTRA TU ACUEDUCTO</a>
+      </div>
     </div>
-</div>
-</section><!-- SERVICIOS -->
-<section class="section">
-    <h2>Servicios</h2>
-    <div class="grid">
-        <div class="card" *ngFor="let item of servicios"> <img [src]="item.img" />
-            <h3>{{ item.titulo }}</h3>
-            <p>{{ item.descripcion }}</p>
-        </div>
+  </div>
+</section>
+
+<section class="about">
+  <div class="about-grid">
+    <div>
+      <span class="section-label">CONOCENOS</span>
+      <h2>Una plataforma en la nube para facturación en sitio</h2>
+      <p><strong>¿Qué es Facturación en Sitio?</strong></p>
+      <p>Es el método mediante el cuál la factura del servicio de agua se entrega inmediatamente al suscriptor, luego de tomar la lectura de consumo. Esta factura se imprime con una impresora portátil térmica (no necesita tintas) que lleva el encargado de tomar las lecturas.</p>
+      <div class="highlight">La toma de lectura y entrega de la factura se hacen en un ÚNICO RECORRIDO</div>
     </div>
-</section><!-- NOTICIAS -->
-<section class="section alt">
-    <h2>Noticias</h2>
-    <div class="grid">
-        <div class="card" *ngFor="let n of noticias"> <img [src]="n.img" />
-            <h3>{{ n.titulo }}</h3>
-        </div>
+    <div class="about-image">
+      <img src="assets/agua.png" alt="Facturación en sitio" />
     </div>
-</section><!-- FOOTER -->
-<footer>
-    <p>© 2026 Acueducto Primavera</p>
+  </div>
+</section>
+
+<section class="features">
+  <div class="features-grid">
+    <article class="feature-card">
+      <img src="assets/agua.png" alt="Plataforma en la nube" />
+      <h3>Plataforma en la Nube</h3>
+      <p>Hemos diseñado un software para la facturación y recaudo del servicio de acueducto rural. Lo mejor, a un precio tan bajo que no vas a creerlo.</p>
+    </article>
+    <article class="feature-card">
+      <img src="assets/grifo.png" alt="Sin Internet" />
+      <h3>Toma de Lecturas sin Internet</h3>
+      <p>Sabemos que en la zona rural la conexión a Internet no es la ideal. MI VEREDA software funciona sin necesidad de tener conexión a internet al momento de tomar la lectura y entregar la factura.</p>
+    </article>
+    <article class="feature-card">
+      <img src="assets/metodo-de-pago.png" alt="Recaudo" />
+      <h3>Recaudo en puntos físicos</h3>
+      <p>Pensando en tu comodidad hemos dispuesto el pago de las facturas del servicio de acueducto a través de puntos físicos como Efecty, Su Red, PagaTodo.</p>
+    </article>
+  </div>
+</section>
+
+<section class="services">
+  <span class="section-label">SERVICIOS</span>
+  <h2>Hemos pensado en todos Servicios para suscriptores y administradores</h2>
+  <div class="services-grid">
+    <article class="service-card">
+      <img src="assets/metodo-de-pago.png" alt="Paga tu recibo" />
+      <h3>Paga Tu Recibo</h3>
+      <p>Perfecto para aquellos suscriptores que prefieran pagar su factura a través de medios electrónicos.</p>
+      <ul>
+        <li>✓ Pagos PSE</li>
+        <li>✓ Recaudo Físico</li>
+      </ul>
+      <p class="service-type">Si eres Suscriptor</p>
+      <a routerLink="/clientes" class="btn btn-link">IR A PAGOS →</a>
+    </article>
+    <article class="service-card">
+      <img src="assets/asesor-financiero.png" alt="Consulta tus recibos" />
+      <h3>Consulta Tus Recibos</h3>
+      <p>Utiliza el servicio de consulta de tus recibos en línea. Es gratis y sin desplazarte hasta tu acueducto.</p>
+      <ul>
+        <li>✓ Estado de Cuenta</li>
+        <li>✓ Histórico de facturación</li>
+      </ul>
+      <p class="service-type">Si eres Suscriptor</p>
+      <a routerLink="/clientes" class="btn btn-link">IR A CONSULTA →</a>
+    </article>
+    <article class="service-card">
+      <img src="assets/panel-de-administrador.png" alt="Administrador" />
+      <h3>Administrador</h3>
+      <p>Servicio para administración en línea de tu acueducto rural. Acceso para el administrador y sus colaboradores.</p>
+      <ul>
+        <li>✓ Administración General</li>
+        <li>✓ Facturación en sitio</li>
+      </ul>
+      <p class="service-type">Si eres Administrador</p>
+      <a routerLink="/usuarios" class="btn btn-link">ACCEDER →</a>
+    </article>
+  </div>
+</section>
+
+<section id="contacto" class="contact-section">
+  <div class="contact-grid">
+    <div class="contact-left">
+      <h3>CONTACTO</h3>
+      <h2>Ven y conócenos</h2>
+      <p class="address">Calle 10 # 6 - 85, Facatativá, Cundinamarca, Colombia.</p>
+      <p>Si tienes alguna duda o quieres conocernos, con gusto te esperaremos. No dudes en contactarnos.</p>
+
+      <div class="contact-block">
+        <h4>Información General</h4>
+        <p>📞 321 2439363 &nbsp; 📞 890 1035 &nbsp; ✉️ info&#64;manantial.com</p>
+      </div>
+
+      <div class="contact-block">
+        <h4>Soporte técnico / Capacitación</h4>
+        <p>📞 321 2438139 &nbsp; ✉️ soporte&#64;manantial.com</p>
+      </div>
+    </div>
+
+      <div class="contact-right">
+      <form class="contact-form" (submit)="onContactSubmit($event)">
+        <input type="text" placeholder="Nombre" required />
+        <input type="email" placeholder="Correo Electrónico" required />
+        <input type="text" placeholder="Teléfono Celular" />
+        <textarea placeholder="Tu mensaje" rows="6" required></textarea>
+        <label class="checkbox"><input type="checkbox" /> Al hacer clic en aceptar la Política de Datos y Términos y Condiciones</label>
+        <button class="contact-button" type="submit">ENVIAR MENSAJE</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <p>&copy; 2026 Manantial de Vida - Todos los derechos reservados</p>
 </footer>

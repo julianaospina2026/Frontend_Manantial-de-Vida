@@ -1,24 +1,24 @@
-<div class="layout">
-
-    <aside class="sidebar">
-        <h2>💧 Acueducto</h2>
-
-        <nav>
-            <a routerLink="/inicio" routerLinkActive="active">🏠 Inicio</a>
-            <a routerLink="/clientes" routerLinkActive="active">👥 Clientes</a>
-            <a routerLink="/usuarios" routerLinkActive="active">👤 Usuarios</a>
-        </nav>
-    </aside>
-
-    <div class="main-content">
-        <header class="topbar">
-            <h1>Sistema de Acueducto</h1>
-            <span>Administrador</span>
-        </header>
-
-        <main class="page-content">
-            <router-outlet></router-outlet>
-        </main>
+<div class="app-shell">
+    <nav class="navbar">
+    <div class="navbar-brand">
+        <span class="logo-icon">💧</span>
+        <div class="brand-text">
+        <h1>MANANTIAL DE VIDA</h1>
+        <p>FACTURACIÓN EN SITIO</p>
     </div>
+    </div>
+        <div class="nav-links">
+            <a routerLink="/inicio">Inicio</a>
+            <a href="#conocenos" class="anchor-link">Conócenos</a>
+            <a href="#contacto" class="anchor-link">Contáctanos</a>
+        </div>
+        <div class="navbar-actions">
+            <a routerLink="/login" class="btn btn-secondary">INICIAR SESIÓN</a>
+            <button class="nav-toggle" aria-label="Abrir menú">☰</button>
+        </div>
+</nav>
 
+<main class="router-view">
+    <router-outlet></router-outlet>
+</main>
 </div>

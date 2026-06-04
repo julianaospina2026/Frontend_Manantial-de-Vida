@@ -1,0 +1,29 @@
+<section class="role-page usuario-page">
+    <div class="role-card">
+    <h1>Bienvenido Usuario</h1>
+    <p>Esta es la vista del usuario. Aquí podrás ver tu información y el estado de tu servicio.</p>
+
+    <section class="mis-lecturas">
+        <h3>Mis lecturas</h3>
+      <div *ngIf="!lecturas.length">No se encontraron lecturas para este usuario.</div>
+      <ul *ngIf="lecturas.length" class="lecturas-list">
+        <li *ngFor="let l of lecturas">
+            <div class="item">
+            <div>
+                <strong>Medidor:</strong> {{l.medidorSerial}} <br />
+                <strong>Fecha:</strong> {{l.fechaProgramada | date:'short'}} <br />
+                <strong>Lectura actual:</strong> {{l.lecturaActual ?? 'Pendiente'}}
+            </div>
+            <div class="actions">
+              <a class="btn btn-primary" *ngIf="l.id" [routerLink]="['/factura/lectura', l.id]">Ver factura</a>
+            </div>
+        </div>
+        </li>
+    </ul>
+    </section>
+
+    <div class="role-actions">
+        <a routerLink="/inicio" class="btn btn-secondary">Volver al inicio</a>
+    </div>
+</div>
+</section>

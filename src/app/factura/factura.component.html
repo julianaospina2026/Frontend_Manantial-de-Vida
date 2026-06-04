@@ -1,0 +1,55 @@
+<section class="invoice-page">
+  <div class="invoice-card" *ngIf="!loading">
+    <ng-container *ngIf="factura; else noFactura">
+      <div class="invoice-header">
+        <div>
+          <h2>Factura de Agua</h2>
+          <p>Factura N° {{ factura.id }}</p>
+        </div>
+        <span class="status" [class.pendiente]="factura.estado === 'PENDIENTE'" [class.pagada]="factura.estado === 'PAGADA'" [class.anulada]="factura.estado === 'ANULADA'">{{ factura.estado }}</span>
+      </div>
+
+      <div class="invoice-meta">
+        <div>
+          <p><strong>Emitida:</strong> {{ factura.fechaEmision | date:'mediumDate' }}</p>
+          <p><strong>Vence:</strong> {{ factura.fechaVencimiento | date:'mediumDate' }}</p>
+        </div>
+        <div>
+          <p><strong>Cliente:</strong> {{ factura.lectura?.cliente?.nombre }} {{ factura.lectura?.cliente?.apellido }}</p>
+          <p><strong>Cédula:</strong> {{ factura.lectura?.cliente?.documento }}</p>
+        </div>
+      </div>
+
+      <div class="invoice-table">
+        <div class="row header">
+          <div>Concepto</div>
+          <div>Valor</div>
+        </div>
+        <div class="row"><div>Consumo</div><div>{{ factura.valorConsumo | currency:'COP' }}</div></div>
+        <div class="row"><div>Cargo fijo</div><div>{{ factura.cargoFijo | currency:'COP' }}</div></div>
+        <div class="row" *ngIf="factura.otrosCobros"><div>Otros cobros</div><div>{{ factura.otrosCobros | currency:'COP' }}</div></div>
+        <div class="row total"><div>Total a pagar</div><div>{{ factura.totalPagar | currency:'COP' }}</div></div>
+      </div>
+
+      <div class="invoice-footer">
+        <p>Medidor: {{ factura.lectura?.medidorSerial }}</p>
+        <p>Gracias por tu pago puntual. Mantén tu servicio al día.</p>
+      </div>
+
+      <div class="invoice-actions">
+        <a routerLink="/portal-usuario" class="btn btn-secondary">Volver a mi portal</a>
+      </div>
+    </ng-container>
+
+    <ng-template #noFactura>
+      <div class="empty-state">
+        <h3>No se encontró la factura.</h3>
+        <p>Verifica que la lectura tenga una factura asociada.</p>
+        <a routerLink="/portal-usuario" class="btn btn-secondary">Volver</a>
+      </div>
+    </ng-template>
+  </div>
+
+  <div class="loading" *ngIf="loading">Cargando factura...</div>
+  <div class="error" *ngIf="!loading && errorMessage">{{ errorMessage }}</div>
+</section>

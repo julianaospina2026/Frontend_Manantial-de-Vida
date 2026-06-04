@@ -1,0 +1,28 @@
+<section class="role-page operator-page">
+  <div class="role-card">
+    <h1>Bienvenido Operador</h1>
+    <p>Esta es la vista del operador para gestionar lectura de medidores y soporte operativo.</p>
+
+    <section class="pendientes">
+      <h3>Lecturas pendientes</h3>
+      <div *ngIf="!pendientes.length">No hay lecturas pendientes.</div>
+      <ul *ngIf="pendientes.length" class="pendientes-list">
+        <li *ngFor="let p of pendientes">
+          <div class="item">
+            <div class="meta">
+              <div><strong>{{p.clienteNombre || 'S/N'}}</strong> (Medidor: {{p.medidorSerial}})</div>
+              <div class="muted">Programada: {{p.fechaProgramada | date:'short'}}</div>
+            </div>
+            <div class="actions">
+              <button class="btn btn-primary" (click)="marcarRealizada(p)">Marcar realizada</button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <div class="role-actions">
+      <a routerLink="/inicio" class="btn btn-secondary">Volver al inicio</a>
+    </div>
+  </div>
+</section>

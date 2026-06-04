@@ -9,5 +9,15 @@ export interface Usuario {
     apellidos: string;
     telefono: string;
     estado: string;
-    roles: Rol[];
+    rol: Rol;
+    createdAt?: Date;
+    updatedAt?: Date;
+}
+
+export interface PageUsuario {
+    content: Usuario[];
+    totalElements: number;
+    totalPages: number;
+    size: number;
+    number: number;
 }

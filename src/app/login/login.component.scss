@@ -1,0 +1,98 @@
+.login-page {
+  min-height: calc(100vh - 88px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background-image: url('/assets/agua.png');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.login-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.login-card {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(14px);
+  padding: 2.5rem;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.16);
+  text-align: center;
+}
+
+.login-icon {
+  width: 90px;
+  margin-bottom: 1.5rem;
+}
+
+.login-card h2 {
+  margin-bottom: 0.5rem;
+  color: #003d5c;
+}
+
+.login-card p {
+  margin-bottom: 1.8rem;
+  color: #4b5563;
+}
+
+.hint {
+  margin: 0.6rem 0 1rem;
+  color: #1e293b;
+  font-size: 0.95rem;
+}
+
+.login-error {
+  margin: 0.75rem 0 0 0;
+  color: #b91c1c;
+  font-weight: 700;
+}
+
+.login-card label {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: #475569;
+  text-align: left;
+}
+
+.login-card input {
+  width: 100%;
+  padding: 0.95rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  outline: none;
+  font-size: 0.95rem;
+}
+
+.login-card input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+.login-button {
+  width: 100%;
+  margin-top: 1.8rem;
+  padding: 1rem 1.2rem;
+  border: none;
+  border-radius: 12px;
+  background: #2563eb;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.login-button:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}

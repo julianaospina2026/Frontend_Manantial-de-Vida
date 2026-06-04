@@ -1,0 +1,111 @@
+<section class="admin-page">
+  <div class="admin-header">
+    <div>
+      <p class="eyebrow">Panel de control</p>
+      <h1>Bienvenido Administrador</h1>
+      <p>Gestiona pagos, facturas, financiamiento, usuarios y turnos de tu acueducto desde aquí.</p>
+    </div>
+    <div class="admin-actions">
+      <a routerLink="/inicio" class="btn btn-secondary">Volver al inicio</a>
+      <button class="btn btn-primary">Crear usuario</button>
+    </div>
+  </div>
+
+  <div class="summary-grid">
+    <article class="summary-card" *ngFor="let card of summaryCards" [ngClass]="card.accent">
+      <h3>{{ card.title }}</h3>
+      <strong>{{ card.value }}</strong>
+      <p>{{ card.description }}</p>
+    </article>
+  </div>
+
+  <div class="admin-body">
+    <div class="left-column">
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Historial de pagos</h2>
+          <a class="link-action">Ver todo</a>
+        </div>
+        <table>
+          <thead>
+            <tr><th>#</th><th>Cliente</th><th>Fecha</th><th>Estado</th><th>Monto</th></tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let payment of paymentHistory">
+              <td>{{ payment.id }}</td>
+              <td>{{ payment.cliente }}</td>
+              <td>{{ payment.fecha }}</td>
+              <td><span class="badge" [ngClass]="payment.estado.toLowerCase()">{{ payment.estado }}</span></td>
+              <td>{{ payment.monto }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Historial de facturas</h2>
+          <a class="link-action">Ver todo</a>
+        </div>
+        <table>
+          <thead>
+            <tr><th>#</th><th>Cliente</th><th>Fecha</th><th>Estado</th><th>Total</th></tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let invoice of invoiceHistory">
+              <td>{{ invoice.id }}</td>
+              <td>{{ invoice.cliente }}</td>
+              <td>{{ invoice.fecha }}</td>
+              <td><span class="badge" [ngClass]="invoice.estado.toLowerCase()">{{ invoice.estado }}</span></td>
+              <td>{{ invoice.monto }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+
+    <div class="right-column">
+      <section class="panel panel-accent">
+        <h2>Financiamiento</h2>
+        <p class="panel-text">Revisa solicitudes nuevas y administra financiamientos especiales para obras y mejoras.</p>
+        <ul class="mini-list">
+          <li *ngFor="let request of financingRequests">
+            <strong>{{ request.cliente }}</strong>
+            <span>{{ request.monto }}</span>
+            <span class="status small">{{ request.estado }}</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="panel panel-actions">
+        <h2>Acciones rápidas</h2>
+        <div class="action-grid">
+          <button class="action-card">Crear usuario</button>
+          <button class="action-card">Asignar roles</button>
+          <button class="action-card">Configurar turnos</button>
+          <button class="action-card">Generar reportes</button>
+        </div>
+      </section>
+
+      <section class="panel panel-accent">
+        <h2>Turnos programados</h2>
+        <ul class="mini-list">
+          <li *ngFor="let shift of shifts">
+            <div>
+              <strong>{{ shift.dia }}</strong>
+              <span>{{ shift.operador }}</span>
+            </div>
+            <div>{{ shift.hora }}</div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="panel panel-reports">
+        <h2>Reportes</h2>
+        <div class="report-list">
+          <button *ngFor="let report of reports" class="report-card">{{ report }}</button>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>

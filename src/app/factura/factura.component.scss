@@ -1,0 +1,119 @@
+.invoice-page {
+  min-height: calc(100vh - 88px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2.5rem 1rem;
+  background: #f8fafc;
+}
+
+.invoice-card {
+  width: 100%;
+  max-width: 860px;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+.invoice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.8rem;
+}
+
+.invoice-header h2 {
+  margin: 0;
+  color: #0f2137;
+}
+
+.status {
+  padding: 0.85rem 1rem;
+  border-radius: 999px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: white;
+}
+
+.status.pendiente { background: #f59e0b; }
+.status.pagada { background: #10b981; }
+.status.anulada { background: #ef4444; }
+
+.invoice-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.invoice-meta p {
+  margin: 0.35rem 0;
+  color: #475569;
+}
+
+.invoice-table {
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.invoice-table .row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  padding: 1rem 1.2rem;
+  align-items: center;
+}
+
+.invoice-table .header {
+  background: #eff6ff;
+  font-weight: 700;
+}
+
+.invoice-table .row:not(.header) {
+  border-top: 1px solid #e2e8f0;
+}
+
+.invoice-table .total {
+  background: #f8fafc;
+  font-weight: 700;
+}
+
+.invoice-footer {
+  margin-top: 2rem;
+  color: #475569;
+}
+
+.invoice-actions {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 1.8rem;
+  border-radius: 999px;
+  text-decoration: none;
+  color: white;
+  background: #2563eb;
+}
+
+.loading,
+.error {
+  margin-top: 1.5rem;
+  color: #475569;
+  text-align: center;
+}
+
+.empty-state h3 {
+  margin-bottom: 0.8rem;
+}
+
+.empty-state p {
+  margin-bottom: 1.2rem;
+  color: #64748b;
+}

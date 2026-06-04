@@ -1,0 +1,123 @@
+<div class="medidor-shell">
+  <section class="hero-card">
+    <div class="hero-copy">
+      <span class="eyebrow">Acueducto inteligente</span>
+      <h1>Gestión de medidores</h1>
+      <p>Visualiza el parque de medidores, busca por serial y registra nuevos equipos con estilo acuático.</p>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-stats">
+        <div>
+          <span>{{ medidores.length }}</span>
+          <small>Medidores registrados</small>
+        </div>
+        <div>
+          <span>{{ selectedMedidor ? 1 : 0 }}</span>
+          <small>Favorito</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel-grid">
+    <article class="panel">
+      <div class="panel-header">
+        <h2>Buscar medidor</h2>
+        <p>Busca por número de serie para ver detalles rápidos.</p>
+      </div>
+      <div class="panel-body">
+        <div class="search-row">
+          <input
+            type="text"
+            placeholder="Serial del medidor"
+            [(ngModel)]="searchSerial"
+            (keyup.enter)="buscarMedidor()"
+          />
+          <button type="button" (click)="buscarMedidor()">Buscar</button>
+        </div>
+
+        <ng-container *ngIf="selectedMedidor; else listaMedidores">
+          <div class="medidor-card selected">
+            <div class="medidor-header">
+              <span class="badge status-{{ selectedMedidor.estado | lowercase }}">
+                {{ selectedMedidor.estado }}
+              </span>
+              <h3>{{ selectedMedidor.serial }}</h3>
+            </div>
+            <p><strong>Marca:</strong> {{ selectedMedidor.marca }}</p>
+            <p><strong>Instalación:</strong> {{ selectedMedidor.fechaInstalacion }}</p>
+            <p *ngIf="selectedMedidor.cliente">
+              <strong>Cliente:</strong> {{ selectedMedidor.cliente.nombre || 'ID ' + selectedMedidor.cliente.id }}
+            </p>
+          </div>
+        </ng-container>
+
+        <ng-template #listaMedidores>
+          <div *ngIf="cargando" class="spinner">Cargando medidores...</div>
+          <table *ngIf="!cargando && medidores.length > 0">
+            <thead>
+              <tr>
+                <th>Serial</th>
+                <th>Marca</th>
+                <th>Instalación</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let medidor of medidores">
+                <td>{{ medidor.serial }}</td>
+                <td>{{ medidor.marca }}</td>
+                <td>{{ medidor.fechaInstalacion }}</td>
+                <td>
+                  <span class="status-badge status-{{ medidor.estado | lowercase }}">
+                    {{ medidor.estado }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div *ngIf="!cargando && medidores.length === 0" class="empty-state">
+            No hay medidores disponibles aún.
+          </div>
+        </ng-template>
+      </div>
+    </article>
+
+    <article class="panel panel-form">
+      <div class="panel-header">
+        <h2>Registrar nuevo medidor</h2>
+        <p>Agrega un medidor con los datos necesarios para tu acueducto.</p>
+      </div>
+      <div class="panel-body">
+        <div class="form-group">
+          <label>Serial</label>
+          <input type="text" [(ngModel)]="nuevoMedidor.serial" placeholder="Ej. MED-12345" />
+        </div>
+
+        <div class="form-group">
+          <label>Marca</label>
+          <input type="text" [(ngModel)]="nuevoMedidor.marca" placeholder="Ej. Hydron" />
+        </div>
+
+        <div class="form-group">
+          <label>Fecha de instalación</label>
+          <input type="date" [(ngModel)]="nuevoMedidor.fechaInstalacion" />
+        </div>
+
+        <div class="form-group">
+          <label>Estado</label>
+          <select [(ngModel)]="nuevoMedidor.estado">
+            <option *ngFor="let estado of estados" [value]="estado.value">
+              {{ estado.label }}
+            </option>
+          </select>
+        </div>
+
+        <button class="btn-primary" type="button" (click)="crearMedidor()">Registrar medidor</button>
+
+        <div class="message" *ngIf="mensaje">{{ mensaje }}</div>
+      </div>
+    </article>
+  </section>
+</div>
