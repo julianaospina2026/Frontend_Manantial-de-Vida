@@ -1,0 +1,28 @@
+.agenda-container { padding: 2rem; background: #f0f7f9; min-height: 100vh; }
+.agenda-header h2 { color: #004e92; margin-bottom: 2rem; }
+.card { background: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+.booking-form {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    input { padding: 10px; border: 1px solid #ced4da; border-radius: 6px; flex: 1; min-width: 150px; }
+    .btn-add { background: #004e92; color: white; border: none; padding: 10px 25px; border-radius: 6px; cursor: pointer; }
+}
+table {
+    width: 100%; border-collapse: collapse;
+    th { text-align: left; padding: 1rem; border-bottom: 2px solid #eef2f7; color: #5a7d95; font-size: 0.85rem; text-transform: uppercase; }
+    td { padding: 1rem; border-bottom: 1px solid #f8fbfc; vertical-align: middle; }
+}
+.status-tag {
+    padding: 4px 12px; border-radius: 15px; font-size: 0.75rem; font-weight: bold;
+    &.pendiente { background: #fff3cd; color: #856404; }
+    &.atendido { background: #d4edda; color: #155724; }
+    &.cancelado { background: #f8d7da; color: #721c24; }
+}
+.action-cell {
+    display: flex; gap: 8px;
+    button {
+    width: 32px; height: 32px; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    &.btn-check { background: #28a745; color: white; &:hover { background: #218838; } }
+    &.btn-cancel { background: #dc3545; color: white; &:hover { background: #c82333; } }
+}
+}
+.no-records { padding: 2rem; text-align: center; color: #999; }

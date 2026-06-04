@@ -1,0 +1,42 @@
+<div class="pago-page">
+    <header class="section-title">
+    <h2><i class="fas fa-money-check-alt"></i> Recaudo de Cartera</h2>
+    <p>Registre pagos manuales o electrónicos al sistema de acueducto.</p>
+</header>
+
+<div class="form-card card">
+    <form [formGroup]="form" (ngSubmit)="registrar()">
+        <div class="form-grid">
+        <div class="field">
+            <label>N° Factura</label>
+            <input type="number" formControlName="facturaId" placeholder="Ej: 5021">
+        </div>
+        
+        <div class="field">
+            <label>Monto a Pagar</label>
+            <input type="number" formControlName="monto" placeholder="0.00">
+        </div>
+
+        <div class="field">
+            <label>Método de Pago</label>
+            <select formControlName="metodoPago">
+            <option *ngFor="let m of metodos" [value]="m">{{ m }}</option>
+        </select>
+        </div>
+
+        <div class="field">
+            <label>Fecha de Transacción</label>
+            <input type="date" formControlName="fechaPago">
+        </div>
+    </div>
+    
+    <div class="footer-actions">
+        <button type="submit" class="btn-submit" [disabled]="form.invalid">Confirmar Recibo</button>
+    </div>
+    </form>
+</div>
+
+  <div *ngIf="mensaje" class="alert-box" [class.error]="mensaje.includes('Error')">
+    {{ mensaje }}
+</div>
+</div>

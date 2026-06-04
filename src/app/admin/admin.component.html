@@ -1,13 +1,13 @@
 <section class="admin-page">
   <div class="admin-header">
-    <div>
+    <div class="admin-header-copy">
       <p class="eyebrow">Panel de control</p>
       <h1>Bienvenido Administrador</h1>
       <p>Gestiona pagos, facturas, financiamiento, usuarios y turnos de tu acueducto desde aquí.</p>
-    </div>
-    <div class="admin-actions">
-      <a routerLink="/inicio" class="btn btn-secondary">Volver al inicio</a>
-      <button class="btn btn-primary">Crear usuario</button>
+      <div class="admin-actions">
+        <a routerLink="/inicio" class="btn btn-secondary">Volver al inicio</a>
+        <a routerLink="/admin/crear-usuario" class="btn btn-primary">Crear usuario</a>
+      </div>
     </div>
   </div>
 
@@ -80,10 +80,10 @@
       <section class="panel panel-actions">
         <h2>Acciones rápidas</h2>
         <div class="action-grid">
-          <button class="action-card">Crear usuario</button>
-          <button class="action-card">Asignar roles</button>
-          <button class="action-card">Configurar turnos</button>
-          <button class="action-card">Generar reportes</button>
+          <a routerLink="/admin/crear-usuario" class="action-card">Crear usuario</a>
+          <a routerLink="/admin/asignar-roles" class="action-card">Asignar roles</a>
+          <a routerLink="/admin/configurar-turnos" class="action-card">Configurar turnos</a>
+          <a routerLink="/admin/generar-informes" class="action-card">Generar informes</a>
         </div>
       </section>
 

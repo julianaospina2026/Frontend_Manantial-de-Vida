@@ -1,0 +1,47 @@
+<div class="historial-container">
+    <header class="header-section">
+        <h1><i class="fas fa-tint"></i> Historial de Consumo</h1>
+        <p>Seguimiento de metros cúbicos consumidos por periodo.</p>
+    </header>
+
+    <div class="search-box card">
+        <div class="input-group">
+            <label for="clienteId">ID del Cliente</label>
+            <input type="number" id="clienteId" [(ngModel)]="clienteId" placeholder="Ej: 12345">
+            <button (click)="consultar()" [disabled]="cargando" class="btn-primary">
+                {{ cargando ? 'Consultando...' : 'Consultar Historial' }}
+            </button>
+        </div>
+    </div>
+
+    <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+
+    <div class="results-grid" *ngIf="lecturas.length > 0">
+        <div class="table-card card">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Mes/Año</th>
+                        <th>Medidor</th>
+                        <th>Lectura Anterior</th>
+                        <th>Lectura Actual</th>
+                        <th>Consumo (m³)</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let l of lecturas">
+                        <td>{{ l.fechaProgramada | date:'MMMM yyyy' | uppercase }}</td>
+                        <td>{{ l.medidorSerial }}</td>
+                        <td>{{ l.lecturaAnterior }}</td>
+                        <td>{{ l.lecturaActual }}</td>
+                        <td class="consumo-cell">{{ (l.lecturaActual || 0) - (l.lecturaAnterior || 0) }} m³</td>
+                        <td>
+                            <span [class]="'badge ' + l.estado?.toLowerCase()">{{ l.estado }}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+<section class="admin-page admin-action-page">
+  <div class="action-header">
+    <div>
+      <p class="eyebrow">Administración</p>
+      <h1>Asignar roles</h1>
+      <p>Selecciona un usuario y asigna el rol adecuado para su acceso en el sistema.</p>
+    </div>
+    <a routerLink="/admin" class="btn btn-secondary">Volver al panel</a>
+  </div>
+
+  <div class="action-panel">
+    <form [formGroup]="form" (ngSubmit)="asignar()" class="form-grid">
+      <label>
+        Usuario
+        <select formControlName="usuarioId">
+          <option [ngValue]="null">Selecciona usuario</option>
+          <option *ngFor="let usuario of usuarios" [ngValue]="usuario.id">{{ usuario.username }} - {{ usuario.email }}</option>
+        </select>
+      </label>
+
+      <label>
+        Rol
+        <select formControlName="rolId">
+          <option [ngValue]="null">Selecciona rol</option>
+          <option *ngFor="let rol of roles" [ngValue]="rol.id">{{ rol.nombre }}</option>
+        </select>
+      </label>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Asignar rol</button>
+      </div>
+    </form>
+
+    <div class="status-messages">
+      <p class="success" *ngIf="mensaje">{{ mensaje }}</p>
+      <p class="error" *ngIf="error">{{ error }}</p>
+    </div>
+
+    <section class="table-panel">
+      <h2>Usuarios disponibles</h2>
+      <table>
+        <thead>
+          <tr><th>Username</th><th>Email</th><th>Rol actual</th></tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let usuario of usuarios">
+            <td>{{ usuario.username }}</td>
+            <td>{{ usuario.email }}</td>
+            <td>{{ usuario.rol?.nombre || 'Sin rol' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+</section>

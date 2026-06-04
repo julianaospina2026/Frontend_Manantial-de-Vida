@@ -1,11 +1,83 @@
 .admin-page {
+  position: relative;
+  overflow: hidden;
   min-height: calc(100vh - 88px);
   padding: 2rem 2.5rem 3rem;
-  background: linear-gradient(180deg, #f6fbff 0%, #e9f3fb 100%);
+  background: linear-gradient(180deg, #dbf1ff 0%, #f9fcff 100%);
+  background-image: url('/assets/agua.png');
+  background-size: 380px;
+  background-repeat: no-repeat;
+  background-position: top right;
   color: #0f172a;
 }
 
+.admin-page::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.82), transparent 35%);
+  pointer-events: none;
+}
+
 .admin-header {
+  position: relative;
+
+  display: grid;
+  grid-template-columns: 1fr;
+
+  padding: 3rem;
+
+  border-radius: 32px;
+
+  background: rgba(255, 255, 255, 0.92);
+
+  backdrop-filter: blur(10px);
+
+  box-shadow:
+    0 15px 40px rgba(15, 76, 129, 0.08);
+
+  margin-bottom: 2rem;
+
+  overflow: hidden;
+}
+
+.admin-header::after {
+  content: "";
+
+  position: absolute;
+
+  right: -80px;
+  top: -40px;
+
+  width: 380px;
+  height: 380px;
+
+  background-image: url('/assets/agua.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  opacity: 0.06;
+
+  pointer-events: none;
+}
+
+.admin-header-copy {
+  position: relative;
+  z-index: 2;
+}
+
+.admin-header-right {
+  display: none;
+}
+
+.admin-header-right img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 24px;
+  box-shadow: 0 22px 40px rgba(15, 23, 42, 0.14);
+}
+
+.admin-header h1 {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;

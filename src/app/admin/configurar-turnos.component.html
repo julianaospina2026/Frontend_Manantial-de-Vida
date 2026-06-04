@@ -1,0 +1,61 @@
+<section class="admin-page admin-action-page">
+  <div class="action-header">
+    <div>
+      <p class="eyebrow">Administración</p>
+      <h1>Configurar turnos</h1>
+      <p>Programa los turnos de mantenimiento y asigna fontaneros a cada ruta.</p>
+    </div>
+    <a routerLink="/admin" class="btn btn-secondary">Volver al panel</a>
+  </div>
+
+  <div class="action-panel">
+    <form [formGroup]="form" (ngSubmit)="guardarTurno()" class="form-grid">
+      <label>
+        Día de la semana
+        <input type="text" formControlName="dia" placeholder="Ej. Lunes" />
+      </label>
+
+      <label>
+        Fontanero
+        <input type="text" formControlName="nombreFontanero" placeholder="Ej. Juan R." />
+      </label>
+
+      <label>
+        Zona / dirección
+        <input type="text" formControlName="direccion" placeholder="Ej. Vereda El Bosque" />
+      </label>
+
+      <label>
+        Estado del turno
+        <select formControlName="estado">
+          <option value="PROGRAMADO">PROGRAMADO</option>
+          <option value="COMPLETADO">COMPLETADO</option>
+          <option value="CANCELADO">CANCELADO</option>
+        </select>
+      </label>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Guardar turno</button>
+      </div>
+    </form>
+
+    <p class="status-message">{{ mensaje }}</p>
+
+    <section class="table-panel">
+      <h2>Turnos programados</h2>
+      <table>
+        <thead>
+          <tr><th>Día</th><th>Fontanero</th><th>Zona</th><th>Estado</th></tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let turno of turnos">
+            <td>{{ turno.dia }}</td>
+            <td>{{ turno.nombreFontanero }}</td>
+            <td>{{ turno.direccion }}</td>
+            <td>{{ turno.estado }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+</section>

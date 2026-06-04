@@ -1,0 +1,30 @@
+<div class="cuotas-container">
+  <header class="page-header">
+    <h1>Detalle de Cuotas - Plan #{{ financiacionId }}</h1>
+  </header>
+
+  <div class="table-card">
+    <table>
+      <thead>
+        <tr>
+          <th>Cuota N°</th>
+          <th>Monto</th>
+          <th>Vencimiento</th>
+          <th>Estado</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cuota of cuotas">
+          <td>{{ cuota.numeroCuota }}</td>
+          <td>{{ cuota.monto | currency }}</td>
+          <td>{{ cuota.fechaVencimiento | date:'dd/MM/yyyy' }}</td>
+          <td><span [class]="cuota.pagada ? 'status paid' : 'status pending'">{{ cuota.pagada ? 'PAGADA' : 'PENDIENTE' }}</span></td>
+          <td>
+            <button *ngIf="!cuota.pagada" (click)="pagar(cuota.id)" class="btn-pay">Pagar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

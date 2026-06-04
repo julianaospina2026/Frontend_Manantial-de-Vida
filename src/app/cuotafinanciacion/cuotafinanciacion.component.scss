@@ -1,0 +1,17 @@
+.cuotas-container { padding: 2rem; background-color: #f0f7f9; min-height: 100vh; }
+.page-header { color: #005b96; margin-bottom: 2rem; border-bottom: 3px solid #b3cde0; padding-bottom: 0.5rem; }
+.table-card { background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow: hidden; }
+table {
+  width: 100%; border-collapse: collapse;
+  th { background: #005b96; color: white; padding: 1rem; text-align: left; }
+  td { padding: 1rem; border-bottom: 1px solid #eee; }
+}
+.status {
+  padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;
+  &.paid { background: #d4edda; color: #155724; }
+  &.pending { background: #fff3cd; color: #856404; }
+}
+.btn-pay {
+  background: #00a8cc; color: white; border: none; padding: 6px 15px; border-radius: 4px; cursor: pointer; transition: 0.3s;
+  &:hover { background: #007ea7; }
+}

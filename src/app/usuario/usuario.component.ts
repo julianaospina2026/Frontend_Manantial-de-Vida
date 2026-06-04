@@ -11,6 +11,7 @@ import { RolService } from '../service/rol.service';
     standalone: true,
     imports: [CommonModule, FormsModule, ReactiveFormsModule],
     templateUrl: './usuario.component.html',
+    styleUrl: './usuario.component.scss'
 })
 export class UsuarioComponent implements OnInit {
     usuarios: Usuario[] = [];
@@ -25,7 +26,7 @@ export class UsuarioComponent implements OnInit {
 
     readonly form = this.fb.nonNullable.group({
         username: ['', Validators.required],
-        passwordHash: ['', Validators.required],
+        passwordHash: ['', Validators.required], // Se mapea al campo passwordHash del backend
         email: ['', [Validators.required, Validators.email]],
         nombres: ['', Validators.required],
         apellidos: ['', Validators.required],
@@ -46,19 +47,6 @@ export class UsuarioComponent implements OnInit {
 
     get rolesDisponibles(): Rol[] {
         return this.roles;
-    }
-
-    private inicializarUsuario(): Usuario {
-        return {
-            username: '',
-            passwordHash: '',
-            email: '',
-            nombres: '',
-            apellidos: '',
-            telefono: '',
-            estado: 'ACTIVO',
-            rol: { id: 0, nombre: '' }
-        };
     }
 
     cargarUsuarios(): void {
@@ -84,10 +72,13 @@ export class UsuarioComponent implements OnInit {
         this.usuarioService.buscarPorUsername(username).subscribe({
             next: usuario => {
                 this.usuarios = usuario ? [usuario] : [];
+                this.error = usuario ? '' : 'No se encontró el usuario buscado';
+                this.mensaje = usuario ? 'Resultado encontrado' : '';
             },
             error: () => {
                 this.usuarios = [];
-                this.error = 'No se encontró ningún usuario con ese username';
+                this.error = 'No se encontró ningún usuario con el nombre: ' + username;
+                this.mensaje = '';
             }
         });
     }
@@ -95,7 +86,9 @@ export class UsuarioComponent implements OnInit {
     limpiarBusqueda(): void {
         this.filtroUsername.setValue('');
         this.error = '';
+        this.mensaje = '';
         this.cargarUsuarios();
+        this.cancelarEdicion(); // Limpia también el formulario principal
     }
 
     iniciarEdicion(usuario: Usuario): void {
@@ -107,7 +100,7 @@ export class UsuarioComponent implements OnInit {
             nombres: usuario.nombres,
             apellidos: usuario.apellidos,
             telefono: usuario.telefono,
-            estado: usuario.estado,
+            estado: usuario.estado || 'ACTIVO',
             rol: usuario.rol
         });
     }
@@ -138,17 +131,8 @@ export class UsuarioComponent implements OnInit {
             return;
         }
 
-        const raw = this.form.getRawValue();
-        const payload: Usuario = {
-            username: raw.username,
-            passwordHash: raw.passwordHash,
-            email: raw.email,
-            nombres: raw.nombres,
-            apellidos: raw.apellidos,
-            telefono: raw.telefono,
-            estado: raw.estado,
-            rol: raw.rol!
-        };
+        const payload: Usuario = this.form.getRawValue() as Usuario;
+        if (this.editandoId) payload.id = this.editandoId;
 
         if (this.editandoId != null) {
             this.usuarioService.actualizar(this.editandoId, payload).subscribe({
@@ -177,6 +161,7 @@ export class UsuarioComponent implements OnInit {
                     estado: 'ACTIVO',
                     rol: null
                 });
+                this.cancelarEdicion();
                 this.cargarUsuarios();
             },
             error: () => {

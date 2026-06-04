@@ -1,0 +1,33 @@
+<div class="pagos-view">
+    <div class="header">
+        <h2><i class="fas fa-file-invoice-dollar"></i> Historial de Pagos Recibidos</h2>
+    </div>
+
+    <div class="search card">
+        <input type="number" [(ngModel)]="clienteId" placeholder="ID del usuario">
+        <button (click)="cargar()">Buscar Pagos</button>
+    </div>
+
+    <div class="table-container card" *ngIf="pagos.length > 0">
+        <table>
+            <thead>
+                <tr>
+                    <th>Referencia Pago</th>
+                    <th>N° Factura</th>
+                    <th>Fecha de Pago</th>
+                    <th>Método</th>
+                    <th>Monto Pagado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let p of pagos">
+                    <td>#PAG-{{ p.id }}</td>
+                    <td>FAC-{{ p.facturaId }}</td>
+                    <td>{{ p.fechaPago | date:'medium' }}</td>
+                    <td><span class="method-tag">{{ p.metodoPago }}</span></td>
+                    <td class="amount">{{ p.monto | currency }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

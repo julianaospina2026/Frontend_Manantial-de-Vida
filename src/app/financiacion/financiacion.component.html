@@ -1,0 +1,58 @@
+<div class="container">
+  <h2>Gestión de Financiaciones</h2>
+
+  <section class="card">
+    <h3>Nueva Financiación</h3>
+    <form [formGroup]="form" (ngSubmit)="guardar()">
+      <div class="form-grid">
+        <label>
+          ID Cliente
+          <input type="number" formControlName="clienteId" />
+        </label>
+        <label>
+          Monto Total
+          <input type="number" formControlName="montoTotal" />
+        </label>
+        <label>
+          Número de Cuotas
+          <input type="number" formControlName="numeroCuotas" />
+        </label>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Crear Plan</button>
+    </form>
+    <p *ngIf="mensaje">{{ mensaje }}</p>
+  </section>
+
+  <section class="card">
+    <h3>Consultar por Cliente</h3>
+    <div class="search-bar">
+      <input type="number" [(ngModel)]="clienteIdBusqueda" placeholder="ID del cliente..." />
+      <button (click)="buscarPorCliente()" class="btn btn-secondary">Buscar</button>
+    </div>
+
+    <table *ngIf="financiaciones.length > 0">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Monto</th>
+          <th>Cuotas</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let f of financiaciones">
+          <td>{{ f.id }}</td>
+          <td>{{ f.montoTotal | currency }}</td>
+          <td>{{ f.numeroCuotas }}</td>
+          <td><span class="badge">{{ f.estado }}</span></td>
+          <td>
+            <!-- Ajustar según la ruta definitiva -->
+            <a [routerLink]="['/admin/cuotas-financiacion', f.id]" class="btn-link">Ver Cuotas</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p *ngIf="financiaciones.length === 0 && clienteIdBusqueda > 0">No hay planes registrados.</p>
+  </section>
+</div>

@@ -1,0 +1,48 @@
+<div class="agenda-container">
+    <header class="agenda-header">
+    <h2><i class="fas fa-calendar-alt"></i> Agenda de Servicios Técnicos</h2>
+</header>
+
+<section class="booking-section card">
+    <h3>Programar Nueva Visita</h3>
+    <div class="booking-form">
+        <input type="number" [(ngModel)]="nuevoTurno.clienteId" placeholder="ID Cliente">
+        <input type="datetime-local" [(ngModel)]="nuevoTurno.fecha">
+        <input type="text" [(ngModel)]="nuevoTurno.motivo" placeholder="Motivo de la visita">
+        <button (click)="programar()" class="btn-add">Agendar</button>
+    </div>
+</section>
+
+<div class="list-wrapper card">
+    <table>
+        <thead>
+        <tr>
+            <th>Fecha y Hora</th>
+            <th>Cliente</th>
+            <th>Motivo</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let t of turnos">
+            <td>{{ t.fecha | date:'medium' }}</td>
+            <td># {{ t.clienteId }}</td>
+            <td>{{ t.motivo }}</td>
+            <td>
+            <span [class]="'status-tag ' + t.estado.toLowerCase()">{{ t.estado }}</span>
+        </td>
+        <td class="action-cell">
+            <button *ngIf="t.estado === 'PENDIENTE'" (click)="cambiarEstado(t.id, 'ATENDIDO')" class="btn-check" title="Atendido">
+                <i class="fas fa-check"></i>
+            </button>
+            <button *ngIf="t.estado === 'PENDIENTE'" (click)="cambiarEstado(t.id, 'CANCELADO')" class="btn-cancel" title="Cancelar">
+                <i class="fas fa-times"></i>
+            </button>
+        </td>
+        </tr>
+    </tbody>
+    </table>
+    <div *ngIf="turnos.length === 0 && !cargando" class="no-records">No hay servicios programados.</div>
+</div>
+</div>

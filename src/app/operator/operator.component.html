@@ -1,7 +1,19 @@
 <section class="role-page operator-page">
   <div class="role-card">
-    <h1>Bienvenido Operador</h1>
-    <p>Esta es la vista del operador para gestionar lectura de medidores y soporte operativo.</p>
+    <div class="operator-header">
+      <div>
+        <h1>Bienvenido Operador</h1>
+        <p>Esta es la vista del operador para gestionar lectura de medidores y soporte operativo.</p>
+      </div>
+      <img class="hero-image" src="/assets/operador.png" alt="Operador del acueducto" />
+    </div>
+
+    <div class="status-row">
+      <article class="status-card">
+        <strong>{{ pendientes.length }}</strong>
+        <span>Lecturas pendientes</span>
+      </article>
+    </div>
 
     <section class="pendientes">
       <h3>Lecturas pendientes</h3>
@@ -10,8 +22,25 @@
         <li *ngFor="let p of pendientes">
           <div class="item">
             <div class="meta">
-              <div><strong>{{p.clienteNombre || 'S/N'}}</strong> (Medidor: {{p.medidorSerial}})</div>
-              <div class="muted">Programada: {{p.fechaProgramada | date:'short'}}</div>
+              <div class="title-row">
+                <strong>{{ p.clienteNombre || 'Cliente sin nombre' }}</strong>
+                <span class="badge status">{{ p.estado || 'PENDIENTE' }}</span>
+              </div>
+              <div class="datos">
+                <span><strong>Medidor:</strong> {{ p.medidorSerial || 'N/A' }}</span>
+                <span><strong>Fecha:</strong> {{ p.fechaProgramada | date:'short' }}</span>
+              </div>
+              <div class="datos">
+                <span><strong>Zona:</strong> {{ p.clienteZona || 'No disponible' }}</span>
+                <span><strong>Vereda:</strong> {{ p.clienteVereda || 'No disponible' }}</span>
+              </div>
+              <div class="datos">
+                <span><strong>Dirección:</strong> {{ p.clienteDireccion || 'No disponible' }}</span>
+              </div>
+              <div class="datos">
+                <span><strong>Email:</strong> {{ p.clienteEmail || 'No disponible' }}</span>
+                <span><strong>Celular:</strong> {{ p.clienteTelefono || 'No disponible' }}</span>
+              </div>
             </div>
             <div class="actions">
               <button class="btn btn-primary" (click)="marcarRealizada(p)">Marcar realizada</button>

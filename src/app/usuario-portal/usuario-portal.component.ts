@@ -26,6 +26,10 @@ export class UsuarioPortalComponent implements OnInit {
     }
   }
 
+  get totalPagadas(): number {
+    return this.lecturas ? this.lecturas.filter(l => l.estado === 'PAGADA').length : 0;
+  }
+
   cargarLecturas(username: string) {
     this.lecturaService.listarPorUsuario(username).subscribe({
       next: (list) => (this.lecturas = list || []),

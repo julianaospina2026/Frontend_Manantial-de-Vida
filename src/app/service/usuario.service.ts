@@ -17,7 +17,84 @@ export class UsuarioService {
     }
 
     buscarPorUsername(username: string): Observable<Usuario> {
-        return this.http.get<Usuario>(`${this.apiUrl}/username/${username}`);
+        return this.http.get<Usuario>(`${this.apiUrl}/<section class="page">
+    <h2>Usuarios</h2>
+
+<p class="subtitle">CRUD de usuarios con roles</p>
+
+<div class="alerts">
+    <p *ngIf="mensaje" class="success">{{ mensaje }}</p>
+    <p *ngIf="error" class="error">{{ error }}</p>
+</div>
+
+<div class="search-box">
+    <input type="text" [formControl]="filtroUsername" placeholder="Buscar por username" />
+    <button type="button" (click)="buscarPorUsername()">Buscar</button>
+    <button type="button" class="secondary" (click)="limpiarBusqueda()">Limpiar</button>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="guardar()" class="form-grid">
+    <input type="text" formControlName="username" placeholder="Username" />
+    <input type="password" formControlName="passwordHash" placeholder="Password" />
+    <input type="email" formControlName="email" placeholder="Email" />
+    <input type="text" formControlName="nombres" placeholder="Nombres" />
+    <input type="text" formControlName="apellidos" placeholder="Apellidos" />
+    <input type="text" formControlName="telefono" placeholder="Teléfono" />
+
+    <select formControlName="estado">
+      <option *ngFor="let estado of estados" [value]="estado">{{ estado }}</option>
+    </select>
+
+    <select formControlName="roles" multiple>
+      <option *ngFor="let rol of rolesDisponibles" [ngValue]="rol">{{ rol.nombre }}</option>
+    </select>
+
+    <div class="form-actions">
+<button type="submit">{{ editandoId !== null ? 'Actualizar' : 'Crear' }}</button>
+<button
+        *ngIf="editandoId !== null"
+        type="button"
+        class="secondary"
+        (click)="cancelarEdicion()">
+        Cancelar
+    </button>
+    </div>
+</form>
+
+<div class="table-wrap">
+    <table>
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Teléfono</th>
+            <th>Estado</th>
+            <th>Roles</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let u of usuarios; let i = index">
+            <td>{{ u.username }}</td>
+            <td>{{ u.email }}</td>
+            <td>{{ u.nombres }}</td>
+            <td>{{ u.apellidos }}</td>
+            <td>{{ u.telefono }}</td>
+            <td>{{ u.estado }}</td>
+            <td>
+                {{ u.rol.nombre }}
+            </td>
+        <td class="actions">
+            <button type="button" class="secondary" (click)="iniciarEdicion(u)">Editar</button>
+            <button type="button" class="danger" (click)="eliminar(u.id)">Eliminar</button>
+        </td>
+        </tr>
+    </tbody>
+    </table>
+</div>
+</section>${username}`);
     }
 
     crear(usuario: Usuario): Observable<Usuario> {
