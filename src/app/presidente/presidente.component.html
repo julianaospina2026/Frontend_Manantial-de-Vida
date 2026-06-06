@@ -1,0 +1,158 @@
+<div class="presidente-container">
+
+    <header class="panel-header">
+        <h2>Panel de Control - Presidencia</h2>
+        <p>Supervisión general del acueducto.</p>
+    </header>
+
+    <!-- CARGANDO -->
+    <div *ngIf="loading" class="info-status">
+        Cargando información estratégica...
+    </div>
+
+    <!-- ERROR -->
+    <div *ngIf="error" class="error-message">
+        {{ error }}
+    </div>
+
+    <!-- CONTENIDO -->
+    <div *ngIf="!loading && !error">
+
+        <!-- RESUMEN EJECUTIVO -->
+        <section class="card">
+
+            <h3>Resumen Ejecutivo</h3>
+
+            <div class="metric-item">
+                <span class="label">Total Suscriptores:</span>
+                <span class="value">
+                    {{ dashboard?.totalSuscriptores }}
+                </span>
+            </div>
+
+            <div class="metric-item">
+                <span class="label">Total Recaudado:</span>
+                <span class="value">
+                    {{ dashboard?.totalRecaudadoHistorico | currency:'COP' }}
+                </span>
+            </div>
+
+            <div class="metric-item">
+                <span class="label">Cartera por Cobrar:</span>
+                <span class="value">
+                    {{ dashboard?.carteraPorCobrar | currency:'COP' }}
+                </span>
+            </div>
+
+            <div class="metric-item">
+                <span class="label">Mantenimientos Pendientes:</span>
+                <span class="value">
+                    {{ dashboard?.mantenimientosPendientes }}
+                </span>
+            </div>
+
+        </section>
+
+        <!-- LECTURAS -->
+        <section class="card">
+
+            <h3>Lecturas Registradas</h3>
+
+            <p>
+                Total de lecturas:
+                <strong>{{ totalLecturas }}</strong>
+            </p>
+
+            <table
+                class="data-table"
+                *ngIf="lecturas && lecturas.length > 0">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Periodo</th>
+                        <th>Consumo (m³)</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr *ngFor="let lectura of lecturas">
+
+                        <td>{{ lectura.id }}</td>
+
+                        <td>{{ lectura.periodo }}</td>
+
+                        <td>{{ lectura.consumoM3 }}</td>
+
+                        <td>
+                            {{ lectura.valor | currency:'COP' }}
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            <p *ngIf="lecturas.length === 0">
+                No existen lecturas registradas.
+            </p>
+
+        </section>
+
+        <!-- PAGOS -->
+        <section class="card">
+
+            <h3>Pagos Registrados</h3>
+
+            <p>
+                Total pagos:
+                <strong>{{ totalPagos }}</strong>
+            </p>
+
+            <table
+                class="data-table"
+                *ngIf="pagos && pagos.length > 0">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Fecha Pago</th>
+                        <th>Monto</th>
+                        <th>Método</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr *ngFor="let pago of pagos">
+
+                        <td>{{ pago.id }}</td>
+
+                        <td>{{ pago.fechaPago }}</td>
+
+                        <td>
+                            {{ pago.monto | currency:'COP' }}
+                        </td>
+
+                        <td>
+                            {{ pago.metodoPago }}
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            <p *ngIf="pagos.length === 0">
+                No existen pagos registrados.
+            </p>
+
+        </section>
+
+    </div>
+
+</div>

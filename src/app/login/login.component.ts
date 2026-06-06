@@ -11,47 +11,74 @@ import { AuthService } from '../service/auth.service';
     styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+
     private readonly router = inject(Router);
     private readonly authService = inject(AuthService);
+
     errorMessage = '';
 
-onSubmit(loginValue: string, password: string): void {
-    const value = loginValue.trim();
-    const passwordValue = password.trim();
-    this.errorMessage = '';
+    onSubmit(loginValue: string, password: string): void {
 
-    if (!value || !passwordValue) {
-        this.errorMessage = 'Debes ingresar correo o cédula y contraseña.';
-        return;
-    }
+        const value = loginValue.trim();
+        const passwordValue = password.trim();
 
-    // Llamar al backend para autenticar
-    this.authService.login({ username: value, password: passwordValue }).subscribe({
-        next: (response) => {
-        const role = response.role?.toLowerCase() || 'user';
-        const currentUser = {
-            role,
-            email: value.includes('@') ? value.toLowerCase() : undefined,
-            documento: value.includes('@') ? undefined : value,
-            token: response.token,
-            profile: response
-        };
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        this.errorMessage = '';
 
-        if (role === 'admin') {
-            this.router.navigate(['/admin']);
-            return;
-        }
-        if (role === 'operator' || role === 'operador') {
-            this.router.navigate(['/operador']);
+        if (!value || !passwordValue) {
+            this.errorMessage =
+                'Debes ingresar correo/cédula y contraseña.';
             return;
         }
 
-        this.router.navigate(['/portal-usuario']);
-    },
-    error: (error) => {
-        this.errorMessage = error?.error?.message || 'Credenciales incorrectas o el backend no respondió.';
+        this.authService.login({
+            username: value,
+            password: passwordValue
+        }).subscribe({
+
+            next: (response) => {
+
+                console.log('RESPUESTA LOGIN:', response);
+                console.log('ROL REAL:', response.rol?.nombre);
+
+                // 🔥 normalizar rol (IMPORTANTE)
+                const role = response.rol?.nombre?.toLowerCase().trim();
+
+                // guardar sesión
+                const currentUser = {
+                    role,
+                    email: response.email || (value.includes('@') ? value.toLowerCase() : undefined),
+                    documento: value.includes('@') ? undefined : value,
+                    profile: response
+                };
+
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+                // 🔥 redirección por rol
+                if (role === 'administrador') {
+                    this.router.navigate(['/administrador/panel']);
+                    return;
+                }
+
+                if (role === 'operador') {
+                    this.router.navigate(['/operador']);
+                    return;
+                }
+
+                if (role === 'presidente') {
+                    this.router.navigate(['/presidente']);
+                    return;
+                }
+
+                this.router.navigate(['/portal-usuario']);
+            },
+
+            error: (error) => {
+                console.error('ERROR LOGIN:', error);
+
+                this.errorMessage =
+                    error?.error?.message ||
+                    'Credenciales incorrectas o el backend no respondió.';
+            }
+        });
     }
-    });
-}
 }
