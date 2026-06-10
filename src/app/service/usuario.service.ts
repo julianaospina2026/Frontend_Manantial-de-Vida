@@ -1,111 +1,52 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
 import { Usuario } from '../model/usuario.model';
 import { environment } from '../../environments/environments';
 
 @Injectable({
-    providedIn: 'root'
+providedIn: 'root'
 })
 export class UsuarioService {
-    private apiUrl = `${environment.apiUrl}/usuarios`;
 
-    constructor(private http: HttpClient) {}
+private apiUrl = `${environment.apiUrl}/usuarios`;
 
-    listar(): Observable<Usuario[]> {
-        return this.http.get<Usuario[]>(this.apiUrl);
-    }
+constructor(
+private http: HttpClient
+) {}
 
-    buscarPorUsername(username: string): Observable<Usuario> {
-        return this.http.get<Usuario>(`${this.apiUrl}/<section class="page">
-    <h2>Usuarios</h2>
+listar(): Observable<Usuario[]> {
+return this.http.get<Usuario[]>(this.apiUrl);
+}
 
-<p class="subtitle">CRUD de usuarios con roles</p>
+buscarPorUsername(username: string): Observable<Usuario> {
+return this.http.get<Usuario>(
+`${this.apiUrl}/username/${username}`
+);
+}
 
-<div class="alerts">
-    <p *ngIf="mensaje" class="success">{{ mensaje }}</p>
-    <p *ngIf="error" class="error">{{ error }}</p>
-</div>
+crear(usuario: Usuario): Observable<Usuario> {
+return this.http.post<Usuario>(
+this.apiUrl,
+usuario
+);
+}
 
-<div class="search-box">
-    <input type="text" [formControl]="filtroUsername" placeholder="Buscar por username" />
-    <button type="button" (click)="buscarPorUsername()">Buscar</button>
-    <button type="button" class="secondary" (click)="limpiarBusqueda()">Limpiar</button>
-</div>
+actualizar(
+id: number,
+usuario: Usuario
+): Observable<Usuario> {
+return this.http.put<Usuario>(
+`${this.apiUrl}/${id}`,
+usuario
+);
+}
 
-<form [formGroup]="form" (ngSubmit)="guardar()" class="form-grid">
-    <input type="text" formControlName="username" placeholder="Username" />
-    <input type="password" formControlName="passwordHash" placeholder="Password" />
-    <input type="email" formControlName="email" placeholder="Email" />
-    <input type="text" formControlName="nombres" placeholder="Nombres" />
-    <input type="text" formControlName="apellidos" placeholder="Apellidos" />
-    <input type="text" formControlName="telefono" placeholder="Teléfono" />
+eliminar(id: number): Observable<void> {
+return this.http.delete<void>(
+`${this.apiUrl}/${id}`
+);
+}
 
-    <select formControlName="estado">
-      <option *ngFor="let estado of estados" [value]="estado">{{ estado }}</option>
-    </select>
-
-    <select formControlName="roles" multiple>
-      <option *ngFor="let rol of rolesDisponibles" [ngValue]="rol">{{ rol.nombre }}</option>
-    </select>
-
-    <div class="form-actions">
-<button type="submit">{{ editandoId !== null ? 'Actualizar' : 'Crear' }}</button>
-<button
-        *ngIf="editandoId !== null"
-        type="button"
-        class="secondary"
-        (click)="cancelarEdicion()">
-        Cancelar
-    </button>
-    </div>
-</form>
-
-<div class="table-wrap">
-    <table>
-        <thead>
-        <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Nombres</th>
-            <th>Apellidos</th>
-            <th>Teléfono</th>
-            <th>Estado</th>
-            <th>Roles</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let u of usuarios; let i = index">
-            <td>{{ u.username }}</td>
-            <td>{{ u.email }}</td>
-            <td>{{ u.nombres }}</td>
-            <td>{{ u.apellidos }}</td>
-            <td>{{ u.telefono }}</td>
-            <td>{{ u.estado }}</td>
-            <td>
-                {{ u.rol.nombre }}
-            </td>
-        <td class="actions">
-            <button type="button" class="secondary" (click)="iniciarEdicion(u)">Editar</button>
-            <button type="button" class="danger" (click)="eliminar(u.id)">Eliminar</button>
-        </td>
-        </tr>
-    </tbody>
-    </table>
-</div>
-</section>${username}`);
-    }
-
-    crear(usuario: Usuario): Observable<Usuario> {
-        return this.http.post<Usuario>(this.apiUrl, usuario);
-    }
-
-    actualizar(id: number, usuario: Usuario): Observable<Usuario> {
-        return this.http.put<Usuario>(`${this.apiUrl}/${id}`, usuario);
-    }
-
-    eliminar(id: number): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/${id}`);
-    }
 }

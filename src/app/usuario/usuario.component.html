@@ -1,140 +1,234 @@
 <div class="admin-viewport">
-  <!-- Watermark Background -->
+
+  <!-- Fondo -->
   <div class="watermark-bg"></div>
 
   <div class="content-wrapper">
-    <!-- Main Header Area -->
-     <header class="view-header">
 
-  <div class="header-content">
-    <span class="section-badge">
-      PANEL DE CONTROL
-    </span>
+    <!-- HEADER -->
+    <header class="view-header">
+      <div class="header-content">
+        <span class="section-badge">PANEL DE CONTROL</span>
 
-    <h1>Gestión de Usuarios</h1>
+        <h1>Gestión de Usuarios</h1>
 
-    <p>
-      Administra usuarios, roles y permisos del sistema de facturación
-      del Acueducto Manantial de Vida.
-    </p>
-  </div>
+        <p>
+          Administra usuarios, roles y permisos del sistema de facturación
+          del Acueducto Manantial de Vida.
+        </p>
+      </div>
 
-  <div class="header-image">
-    <img src="assets/logo.png" alt="Usuarios">
-  </div>
+      <div class="header-image">
+        <img src="assets/logo.png" alt="Usuarios">
+      </div>
+    </header>
 
-</header>
-
-    <!-- Alerts Logic -->
+    <!-- ALERTAS -->
     <div class="toast-container" *ngIf="mensaje || error">
-      <div *ngIf="mensaje" class="toast success">{{ mensaje }}</div>
-      <div *ngIf="error" class="toast error">{{ error }}</div>
+      <div *ngIf="mensaje" class="toast success">
+        {{ mensaje }}
+      </div>
+
+      <div *ngIf="error" class="toast error">
+        {{ error }}
+      </div>
     </div>
 
-    <!-- Search Section (Independent Card) -->
+    <!-- BUSQUEDA -->
     <section class="search-section">
       <div class="card search-card">
+
         <div class="search-group">
+
           <div class="search-input-wrapper">
             <span class="search-icon">🔍</span>
-            <input type="text" [formControl]="filtroUsername" placeholder="Buscar usuario por nombre de sistema..." />
+
+            <input
+              type="text"
+              [formControl]="filtroUsername"
+              placeholder="Buscar usuario por nombre..."
+            />
           </div>
+
           <div class="search-actions">
-            <button type="button" class="btn btn-primary" (click)="buscarPorUsername()">Buscar</button>
-            <button type="button" class="btn btn-outline" (click)="limpiarBusqueda()">Limpiar</button>
+            <button class="btn btn-primary" (click)="buscarPorUsername()">
+              Buscar
+            </button>
+
+            <button class="btn btn-outline" (click)="limpiarBusqueda()">
+              Limpiar
+            </button>
           </div>
+
         </div>
+
       </div>
     </section>
 
-    <!-- Main Management Card -->
+    <!-- FORMULARIO -->
     <main class="card main-card">
-      <!-- Form Section -->
+
       <div class="section-title">
-        <h3>{{ editandoId !== null ? 'Modificar Usuario' : 'Registrar Nuevo Usuario' }}</h3>
+        <h3>
+          {{ editandoId ? 'Modificar Usuario' : 'Registrar Nuevo Usuario' }}
+        </h3>
       </div>
 
       <form [formGroup]="form" (ngSubmit)="guardar()" class="professional-form">
+
         <div class="form-grid">
+
+          <!-- USERNAME -->
           <div class="form-group">
-            <label>Username</label>
-            <input type="text" formControlName="username" placeholder="ej. jdoe24" />
+            <label>Usuario</label>
+            <input type="text" formControlName="username" />
           </div>
-          <div class="form-group" *ngIf="editandoId === null">
+
+          <!-- PASSWORD -->
+          <div class="form-group" *ngIf="!editandoId">
             <label>Contraseña</label>
-            <input type="password" formControlName="passwordHash" placeholder="••••••••" />
+            <input type="password" formControlName="password" />
           </div>
+
+          <!-- EMAIL -->
           <div class="form-group">
-            <label>Correo Electrónico</label>
-            <input type="email" formControlName="email" placeholder="nombre@ejemplo.com" />
+            <label>Correo</label>
+            <input type="email" formControlName="email" />
           </div>
+
+          <!-- CEDULA -->
           <div class="form-group">
-            <label>Nombres</label>
-            <input type="text" formControlName="nombres" placeholder="Nombres" />
+            <label>Cédula</label>
+            <input
+              type="text"
+              formControlName="cedula"
+              [readonly]="editandoId"
+            />
           </div>
+
+          <!-- NOMBRE -->
           <div class="form-group">
-            <label>Apellidos</label>
-            <input type="text" formControlName="apellidos" placeholder="Apellidos" />
+            <label>Nombre Completo</label>
+            <input type="text" formControlName="nombreCompleto" />
           </div>
+
+          <!-- ESTADO -->
           <div class="form-group">
-            <label>Teléfono de Contacto</label>
-            <input type="text" formControlName="telefono" placeholder="+57 300..." />
-          </div>
-          <div class="form-group">
-            <label>Estado de Cuenta</label>
-            <select formControlName="estado">
-              <option *ngFor="let estado of estados" [value]="estado">{{ estado }}</option>
+            <label>Estado</label>
+            <select formControlName="activo">
+              <option [ngValue]="true">Activo</option>
+              <option [ngValue]="false">Inactivo</option>
             </select>
           </div>
+
+          <!-- ROL -->
           <div class="form-group">
-            <label>Rol Asignado</label>
+            <label>Rol</label>
             <select formControlName="rol" [compareWith]="compararRoles">
-              <option [ngValue]="null" disabled>Seleccione un Rol...</option>
-              <option *ngFor="let rol of roles" [ngValue]="rol">{{ rol.nombre }}</option>
+              <option [ngValue]="null" disabled>Seleccione...</option>
+
+              <option *ngFor="let rol of roles" [ngValue]="rol">
+                {{ rol.nombre }}
+              </option>
             </select>
           </div>
+
         </div>
 
+        <!-- BOTONES -->
         <div class="form-submit-area">
+
           <button type="submit" class="btn btn-success">
-            {{ editandoId !== null ? 'Guardar Cambios' : 'Crear Usuario' }}
+            {{ editandoId ? 'Guardar Cambios' : 'Crear Usuario' }}
           </button>
-          <button *ngIf="editandoId !== null" type="button" class="btn btn-link" (click)="cancelarEdicion()">
-            Descartar
+
+          <button
+            *ngIf="editandoId"
+            type="button"
+            class="btn btn-link"
+            (click)="cancelarEdicion()"
+          >
+            Cancelar
           </button>
+
         </div>
+
       </form>
 
       <div class="divider"></div>
 
-      <!-- Table Section -->
+      <!-- TABLA -->
       <div class="table-responsive">
+
         <table class="styled-table">
+
           <thead>
             <tr>
-              <th>Identidad</th>
+              <th>Usuario</th>
               <th>Contacto</th>
-              <th>Nombre Completo</th>
+              <th>Nombre</th>
               <th>Estado</th>
               <th>Rol</th>
-              <th class="text-right">Gestión</th>
+              <th class="text-right">Acciones</th>
             </tr>
           </thead>
+
           <tbody>
-            <tr *ngFor="let u of usuarios; let i = index">
-              <td><span class="user-handle">{{ u.username }}</span></td>
-              <td><div class="email-cell">{{ u.email }}</div><div class="tel-cell">{{u.telefono}}</div></td>
-              <td>{{ u.nombres }} {{ u.apellidos }}</td>
-              <td><span class="status-pill" [attr.data-status]="u.estado.toLowerCase()">{{ u.estado }}</span></td>
-              <td><span class="role-tag">{{ u.rol.nombre }}</span></td>
+
+            <tr *ngFor="let u of usuarios">
+
+              <!-- USERNAME -->
+              <td>{{ u.username }}</td>
+
+              <!-- CONTACTO -->
+              <td>
+                <div>{{ u.email || 'Sin correo' }}</div>
+                <div>C.C. {{ u.cedula || 'Sin cédula' }}</div>
+              </td>
+
+              <!-- NOMBRE -->
+              <td>{{ u.nombreCompleto || 'Sin nombre' }}</td>
+
+              <!-- ESTADO -->
+              <td>
+                <span class="status-pill" [class.activo]="u.activo">
+                  {{ u.activo ? 'Activo' : 'Inactivo' }}
+                </span>
+              </td>
+
+              <!-- ROL -->
+              <td>{{ u.rol?.nombre || 'Sin rol' }}</td>
+
+              <!-- ACCIONES -->
               <td class="action-cell">
-                <button class="btn-icon edit" (click)="iniciarEdicion(u)" title="Editar">✏️</button>
-                <button class="btn-icon delete" (click)="eliminar(u.id)" title="Eliminar">🗑️</button>
+
+                <button class="btn-icon edit" (click)="iniciarEdicion(u)">
+                  ✏️
+                </button>
+
+                <button class="btn-icon delete" (click)="eliminar(u.id)">
+                  🗑️
+                </button>
+
+              </td>
+
+            </tr>
+
+            <!-- CUANDO NO HAY DATOS -->
+            <tr *ngIf="usuarios.length === 0">
+              <td colspan="6" class="text-center">
+                No hay usuarios registrados
               </td>
             </tr>
+
           </tbody>
+
         </table>
+
       </div>
+
     </main>
+
   </div>
+
 </div>

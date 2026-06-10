@@ -1,41 +1,100 @@
 <div class="reportes-container">
-    <header class="header">
-    <h1><i class="fas fa-chart-pie"></i> Informes de Gestión</h1>
+
+  <!-- HEADER -->
+  <header class="header">
+
+    <div class="header-info">
+      <h1>
+        <i class="fas fa-chart-pie"></i>
+        Reporte Mensual del Acueducto
+      </h1>
+
+      <p>
+        Consulta indicadores financieros y operativos del periodo seleccionado.
+      </p>
+    </div>
+
     <div class="period-selector">
-        <label>Seleccionar Mes:</label>
-        <input type="month" [(ngModel)]="periodo" (change)="cargarEstadisticas()">
-    </div>
-</header>
+      <label for="periodo">Periodo</label>
 
-<div class="stats-grid">
+      <input
+        id="periodo"
+        type="month"
+        [(ngModel)]="periodo"
+        (change)="cargarEstadisticas()">
+    </div>
+
+  </header>
+
+  <!-- TARJETAS DE ESTADÍSTICAS -->
+  <div class="stats-grid">
+
+    <!-- RECAUDO -->
     <div class="stat-card blue">
-        <div class="icon"><i class="fas fa-hand-holding-usd"></i></div>
-        <div class="info">
+
+      <div class="icon">
+        <i class="fas fa-hand-holding-usd"></i>
+      </div>
+
+      <div class="info">
         <h3>Recaudo del Periodo</h3>
-        <p class="value">{{ recaudoTotal | currency }}</p>
-    </div>
+
+        <p class="value">
+          {{ recaudoTotal | currency:'COP' }}
+        </p>
+
+        <small>Ingresos recibidos</small>
+      </div>
+
     </div>
 
+    <!-- MORA -->
     <div class="stat-card red">
-        <div class="icon"><i class="fas fa-user-clock"></i></div>
-        <div class="info">
+
+      <div class="icon">
+        <i class="fas fa-user-clock"></i>
+      </div>
+
+      <div class="info">
         <h3>Usuarios en Mora</h3>
-        <p class="value">{{ clientesMora }}</p>
-        <small>Pendientes por pago</small>
-    </div>
+
+        <p class="value">
+          {{ clientesMora }}
+        </p>
+
+        <small>Facturas pendientes</small>
+      </div>
+
     </div>
 
+    <!-- EFICIENCIA -->
     <div class="stat-card cyan">
-        <div class="icon"><i class="fas fa-water"></i></div>
-        <div class="info">
-        <h3>Eficiencia de Red</h3>
-        <p class="value">94.2%</p>
-        <small>Relación consumo/captación</small>
-    </div>
-    </div>
-</div>
 
+      <div class="icon">
+        <i class="fas fa-water"></i>
+      </div>
+
+      <div class="info">
+        <h3>Eficiencia de Red</h3>
+
+        <p class="value">
+          94.2%
+        </p>
+
+        <small>Relación consumo / captación</small>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- CARGANDO -->
   <div class="loading-overlay" *ngIf="cargando">
+
     <div class="spinner"></div>
-</div>
+
+    <p>Cargando estadísticas...</p>
+
+  </div>
+
 </div>

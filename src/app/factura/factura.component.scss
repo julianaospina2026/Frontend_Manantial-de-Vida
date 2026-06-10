@@ -1,119 +1,231 @@
 .invoice-page {
-  min-height: calc(100vh - 88px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2.5rem 1rem;
-  background: #f8fafc;
+  min-height: 100vh;
+  padding: 2rem;
+  background: linear-gradient(
+    135deg,
+    #eef7fb 0%,
+    #f8fcfe 100%
+  );
 }
 
+/* ==========================
+   CARD PRINCIPAL
+========================== */
+
 .invoice-card {
-  width: 100%;
-  max-width: 860px;
-  background: white;
-  border-radius: 24px;
-  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
+  max-width: 1000px;
+  margin: auto;
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+
+  box-shadow:
+    0 15px 40px rgba(0,0,0,.08);
 }
+
+/* ==========================
+   HEADER
+========================== */
 
 .invoice-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.8rem;
+
+  padding: 2rem;
+
+  background: linear-gradient(
+    135deg,
+    #005b96,
+    #00a8cc
+  );
+
+  color: white;
 }
 
 .invoice-header h2 {
   margin: 0;
-  color: #0f2137;
+  font-size: 2rem;
+  font-weight: 700;
 }
+
+.invoice-header p {
+  margin-top: .4rem;
+  opacity: .9;
+}
+
+/* ==========================
+   ESTADOS
+========================== */
 
 .status {
-  padding: 0.85rem 1rem;
-  border-radius: 999px;
+  padding: .6rem 1rem;
+  border-radius: 30px;
+  font-size: .8rem;
   font-weight: 700;
   text-transform: uppercase;
-  color: white;
 }
 
-.status.pendiente { background: #f59e0b; }
-.status.pagada { background: #10b981; }
-.status.anulada { background: #ef4444; }
+.status.pendiente {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status.pagada {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status.anulada {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* ==========================
+   INFORMACIÓN CLIENTE
+========================== */
 
 .invoice-meta {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-  margin-bottom: 2rem;
+  grid-template-columns: repeat(2,1fr);
+  gap: 2rem;
+
+  padding: 2rem;
+
+  background: #f8fbfd;
+  border-bottom: 1px solid #e8eef2;
 }
 
 .invoice-meta p {
-  margin: 0.35rem 0;
-  color: #475569;
+  margin: .5rem 0;
+  color: #445566;
 }
 
+/* ==========================
+   TABLA
+========================== */
+
 .invoice-table {
-  border: 1px solid #e2e8f0;
-  border-radius: 18px;
-  overflow: hidden;
+  padding: 2rem;
 }
 
 .invoice-table .row {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  padding: 1rem 1.2rem;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+
+  padding: 1rem;
+
+  border-bottom: 1px solid #edf2f7;
 }
 
 .invoice-table .header {
-  background: #eff6ff;
-  font-weight: 700;
-}
-
-.invoice-table .row:not(.header) {
-  border-top: 1px solid #e2e8f0;
+  background: #005b96;
+  color: white;
+  font-weight: 600;
+  border-radius: 10px;
 }
 
 .invoice-table .total {
-  background: #f8fafc;
-  font-weight: 700;
+  background: #e9f7fc;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #005b96;
 }
+
+/* ==========================
+   FOOTER
+========================== */
 
 .invoice-footer {
-  margin-top: 2rem;
-  color: #475569;
+  padding: 2rem;
+  background: #fafcfd;
+  border-top: 1px solid #edf2f7;
 }
 
+.invoice-footer p {
+  margin: .5rem 0;
+  color: #607d8b;
+}
+
+/* ==========================
+   BOTONES
+========================== */
+
 .invoice-actions {
-  margin-top: 2rem;
+  padding: 2rem;
   display: flex;
   justify-content: flex-end;
 }
 
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.9rem 1.8rem;
-  border-radius: 999px;
+.btn {
   text-decoration: none;
-  color: white;
-  background: #2563eb;
+  padding: .9rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: .3s;
 }
 
-.loading,
-.error {
-  margin-top: 1.5rem;
-  color: #475569;
+.btn-secondary {
+  background: #005b96;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #00477a;
+  transform: translateY(-2px);
+}
+
+/* ==========================
+   EMPTY STATE
+========================== */
+
+.empty-state {
+  padding: 4rem;
   text-align: center;
 }
 
 .empty-state h3 {
-  margin-bottom: 0.8rem;
+  color: #005b96;
 }
 
 .empty-state p {
-  margin-bottom: 1.2rem;
-  color: #64748b;
+  color: #607d8b;
+}
+
+/* ==========================
+   LOADING
+========================== */
+
+.loading,
+.error {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.1rem;
+}
+
+.error {
+  color: #dc3545;
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media (max-width: 768px) {
+
+  .invoice-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .invoice-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .invoice-table .row {
+    font-size: .9rem;
+  }
+
 }

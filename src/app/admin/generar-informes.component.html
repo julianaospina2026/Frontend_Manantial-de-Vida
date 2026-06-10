@@ -1,29 +1,41 @@
 <section class="admin-page admin-action-page">
+
   <div class="action-header">
     <div>
       <p class="eyebrow">Administración</p>
-      <h1>Generar informes</h1>
-      <p>Selecciona un filtro y visualiza los principales indicadores de tu acueducto.</p>
+      <h1>Reporte Mensual</h1>
+      <p>
+        Consulta los principales indicadores financieros y operativos del acueducto.
+      </p>
     </div>
-    <a routerLink="/admin" class="btn btn-secondary">Volver al panel</a>
+
+    <a routerLink="/administrador/panel" class="btn btn-secondary">
+      Volver al panel
+    </a>
   </div>
 
   <div class="action-panel">
+
     <section class="report-card">
-      <label>
-        Filtro de informe
-        <select [(ngModel)]="informeSeleccionado" name="informeSeleccionado">
-          <option *ngFor="let filtro of filtros" [value]="filtro">{{ filtro }}</option>
-        </select>
-      </label>
-      <p class="report-description">Informe activo: <strong>{{ informeSeleccionado }}</strong></p>
+      <h2>Resumen del Periodo</h2>
+      <p class="report-description">
+        Información consolidada correspondiente al mes seleccionado.
+      </p>
     </section>
 
     <section class="result-grid">
-      <article class="result-card" *ngFor="let resultado of resultados">
+
+      <article
+        class="result-card"
+        *ngFor="let resultado of resultados">
+
         <h3>{{ resultado.title }}</h3>
         <strong>{{ resultado.value }}</strong>
+
       </article>
+
     </section>
+
   </div>
+
 </section>

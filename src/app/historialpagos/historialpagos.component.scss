@@ -1,30 +1,112 @@
 .pagos-view {
-    padding: 2rem;
-    background: #eef2f3;
-    min-height: 100vh;
+  padding: 2rem;
+  background: #eef2f3;
+  min-height: 100vh;
 
-    h2 { color: #004e92; margin-bottom: 1.5rem; }
+  /* =========================
+     TÍTULO
+  ========================= */
+  h2 {
+    color: #004e92;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+  }
 
-    .card {
-        background: white; padding: 20px; border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 20px;
+  /* =========================
+     CARD GENERAL
+  ========================= */
+  .card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+  }
+
+  /* =========================
+     BÚSQUEDA
+  ========================= */
+  .search {
+    display: flex;
+    gap: 15px;
+
+    input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      width: 250px;
+      transition: 0.3s;
     }
 
-    .search {
-        display: flex; gap: 15px;
-        input { padding: 10px; border: 1px solid #ccc; border-radius: 6px; width: 250px; }
-        button { background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; }
+    input:focus {
+      border-color: #004e92;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(0, 78, 146, 0.1);
     }
 
-    table {
-        width: 100%; border-collapse: collapse;
-        th { text-align: left; padding: 15px; border-bottom: 2px solid #004e92; color: #004e92; }
-        td { padding: 15px; border-bottom: 1px solid #eee; }
+    button {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
     }
 
-    .amount { font-weight: bold; color: #28a745; }
-    
-    .method-tag {
-        background: #e3f2fd; color: #005b96; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; text-transform: uppercase;
+    button:hover {
+      background: #1f7a33;
+      transform: translateY(-1px);
     }
+  }
+
+  /* =========================
+     TABLA PAGOS
+  ========================= */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th {
+      text-align: left;
+      padding: 15px;
+      border-bottom: 2px solid #004e92;
+      color: #004e92;
+      font-weight: 700;
+    }
+
+    td {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      color: #444;
+    }
+
+    tr:hover {
+      background-color: #f5fbff;
+      transition: 0.2s ease-in-out;
+    }
+  }
+
+  /* =========================
+     MONTO
+  ========================= */
+  .amount {
+    font-weight: bold;
+    color: #28a745;
+  }
+
+  /* =========================
+     MÉTODO DE PAGO
+  ========================= */
+  .method-tag {
+    background: #e3f2fd;
+    color: #005b96;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    display: inline-block;
+  }
 }

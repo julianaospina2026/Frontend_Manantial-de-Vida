@@ -1,59 +1,155 @@
 .historial-container {
-    padding: 2rem;
-    background-color: #f0f7f9;
-    min-height: 90vh;
+  padding: 2rem;
+  background-color: #f0f7f9;
+  min-height: 90vh;
 
-    .header-section {
-        margin-bottom: 2rem;
-        h1 { color: #004e92; font-size: 2rem; display: flex; align-items: center; gap: 10px; }
-        p { color: #5a7d95; }
+  /* =========================
+     HEADER
+  ========================= */
+  .header-section {
+    margin-bottom: 2rem;
+
+    h1 {
+      color: #004e92;
+      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0;
     }
 
-    .card {
-        background: white;
-        border-radius: 12px;
-        padding: 1.5rem;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        margin-bottom: 1.5rem;
+    p {
+      color: #5a7d95;
+      margin-top: 0.3rem;
     }
+  }
 
-    .search-box {
-        .input-group {
-            display: flex;
-            align-items: flex-end;
-            gap: 15px;
-            label { display: block; margin-bottom: 5px; font-weight: 600; color: #333; }
-            input { padding: 10px; border: 2px solid #e0e6ed; border-radius: 8px; flex: 1; max-width: 300px; }
-        }
-    }
+  /* =========================
+     CARD GENERAL
+  ========================= */
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.5rem;
+  }
 
-    .styled-table {
-        width: 100%;
-        border-collapse: collapse;
-        th { background-color: #004e92; color: white; padding: 12px; text-align: left; }
-        td { padding: 12px; border-bottom: 1px solid #eef2f7; color: #444; }
-        .consumo-cell { font-weight: bold; color: #00a8cc; }
-    }
+  /* =========================
+     BÚSQUEDA
+  ========================= */
+  .search-box {
 
-    .btn-primary {
-        background-color: #00a8cc;
-        color: white;
-        border: none;
-        padding: 10px 20px;
+    .input-group {
+      display: flex;
+      align-items: flex-end;
+      gap: 15px;
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      input {
+        padding: 10px;
+        border: 2px solid #e0e6ed;
         border-radius: 8px;
-        cursor: pointer;
+        flex: 1;
+        max-width: 300px;
         transition: 0.3s;
-        &:hover { background-color: #004e92; }
+      }
+
+      input:focus {
+        border-color: #004e92;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(0, 78, 146, 0.1);
+      }
+    }
+  }
+
+  /* =========================
+     TABLA
+  ========================= */
+  .styled-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th {
+      background-color: #004e92;
+      color: white;
+      padding: 12px;
+      text-align: left;
+      font-weight: 600;
     }
 
-    .badge {
-        padding: 5px 12px;
-        border-radius: 20px;
-        font-size: 0.8rem;
-        font-weight: bold;
-        &.realizada { background: #d4f4e2; color: #155724; }
-        &.pendiente { background: #fff3cd; color: #856404; }
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #eef2f7;
+      color: #444;
     }
 
-    .alert-error { color: #721c24; background-color: #f8d7da; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; }
+    tr:hover {
+      background-color: #f5fbff;
+      transition: 0.2s ease-in-out;
+    }
+
+    .consumo-cell {
+      font-weight: bold;
+      color: #00a8cc;
+    }
+  }
+
+  /* =========================
+     BOTÓN
+  ========================= */
+  .btn-primary {
+    background-color: #00a8cc;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: 600;
+  }
+
+  .btn-primary:hover {
+    background-color: #004e92;
+    transform: translateY(-1px);
+  }
+
+  /* =========================
+     BADGES (ESTADOS)
+  ========================= */
+  .badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: inline-block;
+  }
+
+  .badge.realizada {
+    background: #d4f4e2;
+    color: #155724;
+  }
+
+  .badge.pendiente {
+    background: #fff3cd;
+    color: #856404;
+  }
+
+  /* =========================
+     ALERTA ERROR
+  ========================= */
+  .alert-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    border-left: 4px solid #dc3545;
+  }
 }

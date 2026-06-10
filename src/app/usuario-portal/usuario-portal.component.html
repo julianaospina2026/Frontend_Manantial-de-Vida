@@ -1,66 +1,139 @@
 <section class="role-page usuario-page">
   <div class="role-card">
+
+    <!-- HEADER -->
     <div class="usuario-header">
       <div>
         <h1>Bienvenido Usuario</h1>
-        <p>Esta es la vista del usuario. Aquí podrás ver tu información y el estado de tu servicio.</p>
+        <p>
+          Esta es la vista del usuario. Aquí podrás ver tu información y el estado de tu servicio.
+        </p>
       </div>
       <img class="hero-image" src="/assets/agua.png" alt="Fondo de agua" />
     </div>
 
+    <!-- ======================== -->
+    <!-- RESUMEN USUARIO -->
+    <!-- ======================== -->
     <section class="user-summary">
       <div class="summary-grid">
+
+        <!-- 👤 INFO -->
         <article class="summary-card">
           <h3>Mi información</h3>
-          <p><strong>Nombre:</strong> {{ currentUser?.nombres }} {{ currentUser?.apellidos }}</p>
-          <p><strong>Email:</strong> {{ currentUser?.email }}</p>
-          <p><strong>Teléfono:</strong> {{ currentUser?.telefono }}</p>
-          <p><strong>Dirección:</strong> {{ currentUser?.direccion || 'No registrada' }}</p>
-          <p><strong>Zona / vereda:</strong> {{ currentUser?.zona || currentUser?.vereda || 'No registrada' }}</p>
+
+          <p>
+            <strong>Nombre:</strong>
+            {{ currentUser?.profile?.nombreCompleto ? currentUser.profile.nombreCompleto : 'No registrado' }}
+          </p>
+
+          <p>
+            <strong>Email:</strong>
+            {{
+              currentUser?.profile?.email
+                ? currentUser.profile.email
+                : (currentUser?.profile?.username || 'No registrado')
+            }}
+          </p>
+
+          <p>
+            <strong>Teléfono:</strong>
+            {{ currentUser?.profile?.telefono ? currentUser.profile.telefono : 'No registrado' }}
+          </p>
+
+          <p>
+            <strong>Dirección:</strong>
+            {{
+              currentUser?.profile?.cliente?.direccion
+                ? currentUser.profile.cliente.direccion
+                : 'No registrada'
+            }}
+          </p>
+
+          <p>
+            <strong>Zona / vereda:</strong>
+            {{
+              currentUser?.profile?.cliente?.zona
+                ? currentUser.profile.cliente.zona
+                : (currentUser?.profile?.cliente?.vereda || 'No registrada')
+            }}
+          </p>
         </article>
 
+        <!-- 📊 ÚLTIMA LECTURA -->
         <article class="summary-card">
           <h3>Última lectura</h3>
-          <p *ngIf="lecturas.length; else noUltima">{{ lecturas[0].fechaProgramada | date:'medium' }}</p>
-          <p *ngIf="lecturas.length"><strong>Medidor:</strong> {{ lecturas[0].medidorSerial }}</p>
-          <p *ngIf="lecturas.length"><strong>Lectura actual:</strong> {{ lecturas[0].lecturaActual ?? 'Pendiente' }}</p>
-          <p *ngIf="lecturas.length"><strong>Estado:</strong> {{ lecturas[0].estado || 'Pendiente' }}</p>
+
+          <ng-container *ngIf="lecturaActual; else noUltima">
+            <p>{{ lecturaActual.fechaProgramada | date:'medium' }}</p>
+            <p><strong>Medidor:</strong> {{ lecturaActual.medidorSerial }}</p>
+            <p><strong>Lectura actual:</strong> {{ lecturaActual.lecturaActual ?? 'Pendiente' }}</p>
+            <p><strong>Estado:</strong> {{ lecturaActual.estado || 'Pendiente' }}</p>
+          </ng-container>
+
           <ng-template #noUltima>
             <p>No hay lecturas registradas aún.</p>
           </ng-template>
         </article>
 
+        <!-- 💰 PAGOS -->
         <article class="summary-card">
-            <h3>Pagos realizados</h3>
-          <p><strong>{{ totalPagadas }}</strong> transacciones</p>
-            <p><strong>Facturas disponibles:</strong> {{ lecturas?.length || 0 }}</p>
+          <h3>Pagos realizados</h3>
+          <p><strong>{{ totalPagadas || 0 }}</strong> transacciones</p>
+          <p><strong>Facturas disponibles:</strong> {{ facturasDisponibles || 0 }}</p>
         </article>
-    </div>
+
+      </div>
     </section>
 
+    <!-- ======================== -->
+    <!-- FACTURAS -->
+    <!-- ======================== -->
     <section class="mis-lecturas">
-        <h3>Facturas y pagos</h3>
-      <div *ngIf="!lecturas.length">No se encontraron lecturas para este usuario.</div>
-      <ul *ngIf="lecturas.length" class="lecturas-list">
+      <h3>Facturas y pagos</h3>
+
+      <div *ngIf="!lecturas || lecturas.length === 0">
+        No se encontraron lecturas para este usuario.
+      </div>
+
+      <ul *ngIf="lecturas && lecturas.length > 0" class="lecturas-list">
         <li *ngFor="let l of lecturas">
-            <div class="item">
+          <div class="item">
+
             <div>
-                <strong>Medidor:</strong> {{ l.medidorSerial }}<br />
-                <strong>Fecha:</strong> {{ l.fechaProgramada | date:'short' }}<br />
-                <strong>Lectura actual:</strong> {{ l.lecturaActual ?? 'Pendiente' }}<br />
+              <strong>Medidor:</strong> {{ l.medidorSerial }}<br />
+              <strong>Fecha:</strong> {{ l.fechaProgramada | date:'short' }}<br />
+              <strong>Lectura actual:</strong> {{ l.lecturaActual ?? 'Pendiente' }}<br />
               <strong>Estado factura:</strong> {{ l.estado || 'Pendiente' }}
             </div>
+
             <div class="actions">
-              <a class="btn btn-secondary" *ngIf="l.id" [routerLink]="['/factura/lectura', l.id]">Ver factura</a>
-              <button class="btn btn-primary" type="button" (click)="imprimirFacturaUrl(l)">Imprimir</button>
+              <a 
+                class="btn btn-secondary"
+                *ngIf="l.id"
+                [routerLink]="['/factura/lectura', l.id]">
+                Ver factura
+              </a>
+
+              <button 
+                class="btn btn-primary"
+                type="button"
+                (click)="imprimirFacturaUrl(l)">
+                Imprimir
+              </button>
             </div>
+
           </div>
         </li>
       </ul>
     </section>
 
+    <!-- ACCIONES -->
     <div class="role-actions">
-        <a routerLink="/inicio" class="btn btn-secondary">Volver al inicio</a>
+      <a routerLink="/inicio" class="btn btn-secondary">
+        Volver al inicio
+      </a>
     </div>
-</div>
+
+  </div>
 </section>

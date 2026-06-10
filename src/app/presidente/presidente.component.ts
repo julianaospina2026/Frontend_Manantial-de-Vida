@@ -40,6 +40,8 @@ export class PresidenteComponent implements OnInit {
 
       next: (res) => {
 
+        console.log('===== DATOS PRESIDENTE =====');
+
         console.log('DASHBOARD:', res.dashboard);
         console.log('LECTURAS:', res.lecturas);
         console.log('PAGOS:', res.pagos);
@@ -53,7 +55,19 @@ export class PresidenteComponent implements OnInit {
 
       error: (err) => {
 
-        console.error('ERROR PRESIDENTE:', err);
+        console.error('===== ERROR PRESIDENTE =====');
+
+        console.log('ERROR COMPLETO:', err);
+
+        console.log('STATUS:', err.status);
+
+        console.log('MENSAJE:', err.message);
+
+        console.log('BODY:', err.error);
+
+        if (err.error) {
+          console.log('DETALLE SERVIDOR:', JSON.stringify(err.error));
+        }
 
         this.error =
           'Error al cargar la información estratégica del panel.';

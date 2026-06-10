@@ -2,14 +2,18 @@ import { Rol } from './rol.model';
 
 export interface Usuario {
     id?: number;
+
     username: string;
-    passwordHash: string;
+    password?: string;
+
     email: string;
-    nombres: string;
-    apellidos: string;
-    telefono: string;
-    estado: string;
+    cedula: string;
+    nombreCompleto: string;
+
+    activo: boolean;
+
     rol: Rol;
+
     createdAt?: Date;
     updatedAt?: Date;
 }
