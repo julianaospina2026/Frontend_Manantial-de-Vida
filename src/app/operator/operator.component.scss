@@ -4,10 +4,14 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  background: linear-gradient(180deg, #eefaff 0%, #fefcff 100%), url('/assets/agua.png');
+
+  background:
+    linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+    url('/assets/Blog-1-2.jpg');
+
   background-repeat: no-repeat;
-  background-position: top right;
-  background-size: 260px;
+  background-position: center;
+  background-size: cover;
 }
 
 .role-card {

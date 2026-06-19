@@ -1,14 +1,14 @@
 <div class="app-shell">
 
   <!-- ================= NAVBAR ================= -->
-  <nav class="navbar">
+  <nav class="navbar no-print">
 
     <!-- LOGO -->
     <div class="navbar-brand">
       <span class="logo-icon">💧</span>
 
       <div class="brand-text">
-        <h1>MANANTIAL DE VIDA</h1>
+        <h1>AQUA VIDA</h1>
         <p>FACTURACIÓN EN SITIO</p>
       </div>
     </div>
@@ -23,15 +23,10 @@
     <!-- ACCIONES -->
     <div class="navbar-actions">
 
-      <!-- LOGIN -->
-      <a
-        routerLink="/administrador/login"
-        class="btn btn-secondary">
-
+      <a routerLink="/administrador/login" class="btn btn-secondary">
         INICIAR SESIÓN
       </a>
 
-      <!-- MENU RESPONSIVE -->
       <button class="nav-toggle" aria-label="Abrir menú">
         ☰
       </button>
@@ -40,7 +35,7 @@
 
   </nav>
 
-  <!-- ================= CONTENIDO DINÁMICO ================= -->
+  <!-- ================= CONTENIDO ================= -->
   <main class="router-view">
     <router-outlet></router-outlet>
   </main>

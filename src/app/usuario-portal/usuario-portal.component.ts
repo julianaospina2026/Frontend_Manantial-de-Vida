@@ -4,110 +4,168 @@ import { RouterLink } from '@angular/router';
 
 import { Lectura } from '../model/lectura.model';
 import { LecturaService } from '../service/lectura.service';
+import { FinanciacionService } from '../service/financiacion.service';
 
 @Component({
   selector: 'app-usuario-portal',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './usuario-portal.component.html',
   styleUrls: ['./usuario-portal.component.scss']
 })
 export class UsuarioPortalComponent implements OnInit {
 
-  // ========================
+  // =========================
   // DATOS DEL USUARIO
-  // ========================
+  // =========================
+
   currentUser: any = null;
-  usuario: any = {}; // 👉 aquí guardamos profile limpio
+  usuario: any = {};
 
-  // ========================
-  // DATOS DEL SISTEMA
-  // ========================
+  // =========================
+  // RESUMEN
+  // =========================
+
   lecturas: Lectura[] = [];
-  lecturaActual: Lectura | null = null;
 
-  constructor(private lecturaService: LecturaService) {}
+  totalFinanciaciones = 0;
+  totalPagado = 0;
 
-  // ========================
-  // INIT
-  // ========================
+  // =========================
+  // CONSTRUCTOR
+  // =========================
+
+  constructor(
+    private lecturaService: LecturaService,
+    private financiacionService: FinanciacionService
+  ) {}
+
+  // =========================
+  // INICIO
+  // =========================
+
   ngOnInit(): void {
+    this.cargarUsuario();
+  }
 
-    // 🔥 Obtener usuario del localStorage
-    const raw = localStorage.getItem('currentUser');
-    this.currentUser = raw ? JSON.parse(raw) : null;
+  // =========================
+  // CARGAR USUARIO
+  // =========================
 
-    if (this.currentUser) {
+  private cargarUsuario(): void {
 
-      // ✅ PERFIL LIMPIO
-      this.usuario = this.currentUser.profile || {};
+    const rawUser = localStorage.getItem('currentUser');
 
-      console.log('USUARIO COMPLETO:', this.currentUser);
-      console.log('DATOS PERFIL:', this.usuario);
-
-      // ✅ ID CORREGIDO
-      const id =
-        this.usuario?.username ||
-        this.currentUser?.documento ||
-        this.usuario?.email;
-
-      if (id) {
-        this.cargarLecturas(id);
-      } else {
-        console.warn('No se encontró identificador del usuario');
-      }
-    } else {
-      console.warn('No hay usuario en localStorage');
+    if (!rawUser) {
+      console.warn('No existe usuario en sesión');
+      return;
     }
+
+    this.currentUser = JSON.parse(rawUser);
+    this.usuario = this.currentUser?.profile || {};
+
+    console.log('Usuario cargado:', this.usuario);
+
+    const clienteId = Number(
+      this.currentUser?.clienteId ??
+      this.usuario?.clienteId
+    );
+
+    if (!clienteId) {
+      console.warn('ClienteId no encontrado');
+      return;
+    }
+
+    this.cargarResumen(clienteId);
   }
 
-  // ========================
+  // =========================
+  // RESUMEN DASHBOARD
+  // =========================
+
+  private cargarResumen(clienteId: number): void {
+
+    this.cargarLecturas(clienteId);
+    this.cargarFinanciaciones(clienteId);
+  }
+
+  // =========================
   // LECTURAS
-  // ========================
-  cargarLecturas(username: string) {
-    this.lecturaService.listarPorUsuario(username).subscribe({
-      next: (list) => {
-        this.lecturas = list || [];
+  // =========================
 
-        // ✅ última lectura
-        this.lecturaActual = this.lecturas.length
-          ? this.lecturas[this.lecturas.length - 1]
-          : null;
-      },
-      error: (err) => console.error('Error cargando lecturas usuario', err),
-    });
+  private cargarLecturas(clienteId: number): void {
+
+    this.lecturaService
+      .listarPorUsuario(clienteId)
+      .subscribe({
+
+        next: (data) => {
+          this.lecturas = data || [];
+        },
+
+        error: (err) => {
+          console.error('Error cargando lecturas', err);
+        }
+      });
   }
 
-  // ========================
-  // PAGOS (calculado)
-  // ========================
-  get totalPagadas(): number {
-    return this.lecturas
-      ? this.lecturas.filter(l => l.estado === 'PAGADA').length
-      : 0;
+  // =========================
+  // FINANCIACIONES
+  // =========================
+
+  private cargarFinanciaciones(clienteId: number): void {
+
+    this.financiacionService
+      .listarPorCliente(clienteId)
+      .subscribe({
+
+        next: (data) => {
+
+          this.totalFinanciaciones = data?.length || 0;
+
+          this.totalPagado = data.reduce(
+            (total, financiacion) =>
+              total +
+              ((financiacion.cuotasPagadas || 0) *
+              (financiacion.valorCuota || 0)),
+            0
+          );
+        },
+
+        error: (err) => {
+          console.error('Error cargando financiaciones', err);
+        }
+      });
   }
 
-  // ========================
-  // FACTURAS (pendientes)
-  // ========================
-  get facturasDisponibles(): number {
-    return this.lecturas
-      ? this.lecturas.filter(l => l.estado === 'PENDIENTE').length
-      : 0;
+  // =========================
+  // MÉTRICAS
+  // =========================
+
+  get totalLecturas(): number {
+    return this.lecturas.length;
   }
 
-  // ========================
-  // DESCARGAR FACTURA
-  // ========================
-  imprimirFacturaUrl(lect: Lectura) {
-    if (!lect?.id) return;
-
-    this.lecturaService.obtenerFactura(lect.id).subscribe({
-      next: (blob) => {
-        const url = window.URL.createObjectURL(blob);
-        window.open(url, '_blank');
-      },
-      error: (err) => console.error('Error obteniendo factura', err),
-    });
+  get lecturasConConsumo(): number {
+    return this.lecturas.filter(
+      lectura => (lectura.consumoM3 ?? 0) > 0
+    ).length;
   }
+
+  // =========================
+  // DATOS VISUALES
+  // =========================
+
+  get nombreUsuario(): string {
+    return this.usuario?.nombreCompleto || 'Usuario';
+  }
+
+  get correoUsuario(): string {
+    return this.usuario?.email || 'Sin correo';
+  }
+
+  get cedulaUsuario(): string {
+    return this.usuario?.cedula || 'No registrada';
+  }
+
 }

@@ -6,10 +6,10 @@ import { RouterLink } from '@angular/router';
   selector: 'app-generar-informes',
   standalone: true,
   imports: [CommonModule, RouterLink],
-  templateUrl: './generar-informes.component.html',
-  styleUrls: ['./generar-informes.component.scss']
+  templateUrl: './ver-reportes.component.html',
+  styleUrls: ['./ver-reportes.component.scss']
 })
-export class GenerarInformesComponent {
+export class VerReportesComponent {
 
   resultados = [
     {

@@ -35,4 +35,18 @@ export class FacturaService {
   eliminar(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  listarPorCliente(clienteId: number): Observable<Factura[]> {
+  return this.http.get<Factura[]>(
+    `${this.apiUrl}/cliente/${clienteId}`
+  );
+}
+
+listarPendientes(clienteId: number): Observable<Factura[]> {
+
+  return this.http.get<Factura[]>(
+    `${this.apiUrl}/cliente/${clienteId}/pendientes`
+  );
+
+}
 }

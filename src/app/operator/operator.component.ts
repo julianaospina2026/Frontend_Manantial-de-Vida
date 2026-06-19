@@ -1,38 +1,47 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { Lectura } from '../model/lectura.model';
-import { LecturaService } from '../service/lectura.service';
 
+import { Cliente } from '../model/clientes.model';
+import { ClienteService } from '../service/clientes.service';
 
 @Component({
   selector: 'app-operator',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './operator.component.html',
   styleUrls: ['./operator.component.scss']
 })
 export class OperatorComponent implements OnInit {
-  pendientes: Lectura[] = [];
 
-  constructor(private lecturaService: LecturaService) {}
+  clientes: Cliente[] = [];
+
+  constructor(
+    private clienteService: ClienteService
+  ) {}
 
   ngOnInit(): void {
-    this.cargarPendientes();
+    this.cargarClientes();
   }
 
-  cargarPendientes() {
-    this.lecturaService.listarPendientes().subscribe({
-      next: (list) => (this.pendientes = list || []),
-      error: (err) => console.error('Error cargando lecturas pendientes', err),
-    });
-  }
+  cargarClientes(): void {
 
-  marcarRealizada(lect: Lectura) {
-    if (!lect.id) return;
-    this.lecturaService.marcarRealizada(lect.id).subscribe({
-      next: () => this.cargarPendientes(),
-      error: (err) => console.error('Error marcando lectura', err),
+    this.clienteService.listar().subscribe({
+
+      next: (data: any) => {
+
+        console.log('CLIENTES:', data);
+
+        this.clientes = data || [];
+      },
+
+      error: (error) => {
+
+        console.error(
+          'Error cargando clientes',
+          error
+        );
+      }
     });
   }
 }

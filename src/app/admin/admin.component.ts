@@ -1,45 +1,189 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+
+import {
+  AdminService,
+  ResumenDashboard,
+  Pago,
+  Factura,
+  Turno
+} from '../service/admin.service';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [
+    CommonModule,
+    RouterModule
+  ],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss']
 })
-export class AdminComponent {
+export class AdminComponent implements OnInit {
 
-  constructor(private router: Router) {}
+  // =========================
+  // DASHBOARD
+  // =========================
+  summaryCards: any[] = [];
 
-  // 🔹 TARJETAS
-  summaryCards = [
-    { title: 'Usuarios', value: '10', description: 'Total', accent: 'blue' },
-    { title: 'Pagos', value: '$500.000', description: 'Hoy', accent: 'green' },
-    { title: 'Facturas', value: '3', description: 'Pendientes', accent: 'teal' },
-    { title: 'Turnos', value: '5', description: 'Mañana', accent: 'purple' }
+  // =========================
+  // TABLAS
+  // =========================
+  paymentHistory: Pago[] = [];
+  facturaHistory: Factura[] = [];
+  turnos: Turno[] = [];
+
+  // =========================
+  // OTROS DATOS
+  // =========================
+  solicitudesFinanciamiento: any[] = [];
+
+  reportes: string[] = [
+    'Reporte mensual',
+    'Reporte de pagos',
+    'Reporte de facturación'
   ];
 
-  // 🔥 DATOS DE PRUEBA (YA NO VACÍO)
-  paymentHistory = [
-    { cliente: 'Juan Pérez', fecha: '2026-06-01', estado: 'Pago', monto: 200000 },
-    { cliente: 'María Gómez', fecha: '2026-06-03', estado: 'Pendiente', monto: 150000 }
-  ];
+  cargando = true;
 
-  invoiceHistory = [
-    { cliente: 'Carlos López', fecha: '2026-06-02', estado: 'Pago', total: 300000 },
-    { cliente: 'Ana Torres', fecha: '2026-06-04', estado: 'Pendiente', total: 120000 }
-  ];
+  constructor(
+    private router: Router,
+    private adminService: AdminService
+  ) {}
 
-  financingRequests: any[] = [];
-  shifts: any[] = [];
+  ngOnInit(): void {
+    this.cargarDashboard();
+  }
 
-  reports: string[] = ['Reporte Mensual'];
+  // =========================
+  // CLIENTE SEGURO
+  // =========================
+  getClienteNombre(cliente: any): string {
 
-  // 🔥 NAVEGACIÓN
-  irAReporte() {
-    console.log('Navegando...');
+    if (!cliente) {
+      return 'Sin cliente';
+    }
+
+    if (typeof cliente === 'string') {
+      return cliente;
+    }
+
+    if (typeof cliente === 'object') {
+      return cliente.nombre || 'Sin nombre';
+    }
+
+    return 'Sin cliente';
+  }
+
+  // =========================
+  // CARGAR DASHBOARD
+  // =========================
+  cargarDashboard(): void {
+
+    this.adminService.getResumenDashboard().subscribe({
+      next: (data: ResumenDashboard) => {
+
+        this.summaryCards = [
+          {
+            title: 'Usuarios',
+            value: data.users ?? 0,
+            description: 'Total registrados',
+            accent: 'azul'
+          },
+          {
+            title: 'Pagos',
+            value: `$${data.paymentsToday ?? 0}`,
+            description: 'Recaudado hoy',
+            accent: 'verde'
+          },
+          {
+            title: 'Facturas',
+            value: data.pendingInvoices ?? 0,
+            description: 'Pendientes',
+            accent: 'teal'
+          },
+          {
+            title: 'Turnos',
+            value: data.tomorrowShifts ?? 0,
+            description: 'Programados mañana',
+            accent: 'morado'
+          }
+        ];
+
+        this.cargando = false;
+      },
+
+      error: (err) => {
+        console.error('Error dashboard:', err);
+        this.cargando = false;
+      }
+    });
+
+    // =========================
+    // PAGOS
+    // =========================
+    this.adminService.getPagos().subscribe({
+      next: (data: Pago[]) => {
+        console.log('Pagos:', data);
+        this.paymentHistory = data ?? [];
+      },
+      error: (err) => {
+        console.error('Error pagos:', err);
+      }
+    });
+
+    // =========================
+    // FACTURAS
+    // =========================
+    this.adminService.getFacturas().subscribe({
+      next: (data: Factura[]) => {
+        console.log('Facturas:', data);
+        this.facturaHistory = data ?? [];
+      },
+      error: (err) => {
+        console.error('Error facturas:', err);
+      }
+    });
+
+    // =========================
+    // TURNOS
+    // =========================
+    this.adminService.getTurnos().subscribe({
+      next: (data: Turno[]) => {
+        console.log('Turnos:', data);
+        this.turnos = data ?? [];
+      },
+      error: (err) => {
+        console.error('Error turnos:', err);
+      }
+    });
+  }
+
+  // =========================
+  // NAVEGACIÓN
+  // =========================
+  irAInicio(): void {
+    this.router.navigate(['/inicio']);
+  }
+
+  irACrearUsuario(): void {
+    this.router.navigate(['/admin/crear-usuario']);
+  }
+
+  irAAsignarRoles(): void {
+    this.router.navigate(['/admin/asignar-roles']);
+  }
+
+  irATurnos(): void {
+    this.router.navigate(['/admin/turnos']);
+  }
+
+  irAReportes(): void {
+    this.router.navigate(['/admin/reportes']);
+  }
+
+  irAGenerarInformes(): void {
     this.router.navigate(['/admin/generar-informes']);
   }
 }

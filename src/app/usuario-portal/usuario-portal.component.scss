@@ -1,124 +1,338 @@
-.role-page {
-  min-height: calc(100vh - 88px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  background: linear-gradient(180deg, #eef9ff 0%, #fbfcff 100%), url('/assets/agua.png');
-  background-repeat: no-repeat;
-  background-position: top right;
-  background-size: 280px;
+:root {
+  --agua-oscuro: #005b96;
+  --agua: #0ea5e9;
+  --agua-claro: #dff6ff;
+  --turquesa: #2ec4b6;
+  --fondo: #eef7fb;
+  --texto: #334155;
+  --blanco: #ffffff;
 }
+
+/* ================================================= */
+/* CONTENEDOR PRINCIPAL */
+/* ================================================= */
+
+.role-page {
+  min-height: 100vh;
+  padding: 40px;
+  position: relative;
+  overflow-x: hidden;
+  background: var(--fondo);
+}
+
+.role-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+
+  background-image: url('/assets/Blog-1-2.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  opacity: 0.70;
+
+  z-index: 0;
+}
+
+/* ================================================= */
+/* CARD PRINCIPAL */
+/* ================================================= */
 
 .role-card {
-  width: 100%;
-  max-width: 960px;
-  background: rgba(255,255,255,0.96);
+  position: relative;
+  z-index: 1;
+
+  max-width: 1300px;
+  margin: 0 auto;
+
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(10px);
+
   border-radius: 24px;
-  padding: 3rem;
-  box-shadow: 0 24px 60px rgba(1, 41, 82, 0.12);
+
+  padding: 30px;
+
+  box-shadow: 0 20px 50px rgba(0, 91, 150, 0.12);
 }
 
-.usuario-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
-  margin-bottom: 2rem;
+/* ================================================= */
+/* HERO */
+/* ================================================= */
+
+.hero-dashboard {
+  text-align: center;
+  margin-bottom: 35px;
 }
 
-.usuario-header h1 {
+.hero-dashboard h1 {
   margin: 0;
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--agua-oscuro);
 }
 
-.hero-image {
-  width: 160px;
-  max-width: 35%;
-  opacity: 0.92;
+.hero-dashboard span {
+  display: block;
+  margin-top: 8px;
+  color: var(--agua);
+  font-size: 2rem;
 }
 
-.summary-grid {
+.hero-dashboard p {
+  margin-top: 12px;
+  color: #64748b;
+  font-size: 1rem;
+}
+
+/* ================================================= */
+/* INFORMACIÓN USUARIO */
+/* ================================================= */
+
+.info-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 30px;
 }
 
-.lecturas-list .item {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 1rem;
-  align-items: center;
-  padding: 1rem 1.2rem;
+.info-card {
+  background: white;
   border-radius: 18px;
-  background: #f8fbff;
-  border: 1px solid #dbeafe;
+  padding: 16px;
+
+  border-top: 4px solid var(--agua);
+
+  box-shadow: 0 6px 18px rgba(0, 91, 150, 0.08);
+
+  transition: .25s;
 }
 
-.actions {
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
+.info-card:hover {
+  transform: translateY(-4px);
 }
 
-.lecturas-list .item div {
-  color: #334155;
+.info-card .icon {
+  font-size: 24px;
 }
 
-.role-card h1 {
-  margin-bottom: 1rem;
-  color: #00325f;
+.info-card h4 {
+  margin: 8px 0 4px;
+  color: var(--agua-oscuro);
+  font-size: .95rem;
 }
 
-.role-card p {
-  margin-bottom: 1.5rem;
-  line-height: 1.8;
-  color: #475569;
+.info-card p {
+  margin: 0;
+  color: var(--texto);
+  font-size: .90rem;
+  word-break: break-word;
 }
 
-.summary-grid {
+/* ================================================= */
+/* ESTADÍSTICAS */
+/* ================================================= */
+
+.stats-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 30px;
 }
 
-.summary-card {
-  background: #f8fbff;
-  border-radius: 24px;
-  padding: 1.5rem;
-  border: 1px solid #dbeafe;
+.stat-card {
+  text-align: center;
+
+  padding: 18px;
+
+  border-radius: 18px;
+
+  color: white;
+
+  background: linear-gradient(
+    135deg,
+    #0ea5e9,
+    #77b3d1
+  );
+
+  box-shadow: 0 8px 20px rgba(14,165,233,.20);
+
+  transition: .25s;
 }
 
-.summary-card h3 {
-  margin-top: 0;
-  color: #0f172a;
+.stat-card:hover {
+  transform: translateY(-4px);
 }
 
-.summary-card p {
-  margin: 0.6rem 0;
-  color: #334155;
+.stat-icon {
+  font-size: 24px;
 }
 
-.lecturas-list { list-style: none; padding: 0; margin: 0.6rem 0 1rem 0; display: grid; gap: 0.8rem; }
-.lecturas-list .item { display:flex; justify-content:space-between; align-items:center; padding:0.9rem 1rem; border-radius:10px; background:#f8fafc; border:1px solid #e6eef7; }
-.actions { display:flex; gap:0.5rem; }
-.btn-primary { background: #10b981; color: white; border: none; padding: 0.6rem 1rem; border-radius: 8px; }
-.btn-primary:hover { background:#0ea46b }
+.stat-card h3 {
+  margin: 6px 0;
+  font-size: 1.6rem;
+}
+
+.stat-card p {
+  margin: 0;
+  font-size: .85rem;
+}
+
+/* ================================================= */
+/* BOTONES */
+/* ================================================= */
+
+.dashboard-actions {
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+
+  gap: 16px;
+
+  margin-top: 10px;
+}
+
+.dashboard-btn {
+  min-height: 100px;
+
+  border-radius: 18px;
+
+  color: white;
+  text-decoration: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: .25s;
+
+  box-shadow: 0 8px 20px rgba(0,0,0,.12);
+}
+
+.dashboard-btn:hover {
+  transform: translateY(-4px);
+}
+
+.btn-content {
+  text-align: center;
+}
+
+.btn-icon {
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+
+.btn-content h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.btn-content p {
+  margin-top: 4px;
+  font-size: .85rem;
+}
+
+/* PAGOS */
+
+.dashboard-btn.pagos {
+  background: linear-gradient(
+    135deg,
+    #d38a75,
+    #759dca
+  );
+}
+
+/* FINANCIACIÓN */
+
+.dashboard-btn.financiacion {
+  background: linear-gradient(
+    135deg,
+    #e4eb6c,
+    #6bb86e
+  );
+}
+
+/* HISTORIAL */
+
+.dashboard-btn.historial {
+  background: linear-gradient(
+    135deg,
+    #aa8be1,
+    #eb8b9b
+  );
+}
+
+/* ================================================= */
+/* BOTÓN VOLVER */
+/* ================================================= */
 
 .role-actions {
-  display: flex;
-  justify-content: center;
+  margin-top: 30px;
+  text-align: center;
 }
 
 .btn-secondary {
-  padding: 1rem 2rem;
+  display: inline-block;
+
+  padding: 12px 24px;
+
   border-radius: 999px;
-  color: white;
-  background: #2563eb;
+
   text-decoration: none;
+
+  color: white;
+
+  background: #2563eb;
+
+  font-weight: 600;
+
+  transition: .25s;
 }
 
 .btn-secondary:hover {
-  background: #1d4ed8;
+  background: #227eb7;
+}
+
+/* ================================================= */
+/* RESPONSIVE */
+/* ================================================= */
+
+@media (max-width: 992px) {
+
+  .role-page {
+    padding: 20px;
+  }
+
+  .role-card {
+    padding: 20px;
+  }
+
+  .hero-dashboard h1 {
+    font-size: 2rem;
+  }
+
+  .hero-dashboard span {
+    font-size: 1.7rem;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .stats-grid,
+  .info-grid,
+  .dashboard-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-dashboard h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero-dashboard span {
+    font-size: 1.5rem;
+  }
+
+  .btn-content h3 {
+    font-size: 1rem;
+  }
 }

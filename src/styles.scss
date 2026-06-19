@@ -1,6 +1,6 @@
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
 
-/* GLOBAL */
+/* ========================= GLOBAL ========================= */
 html,
 body {
   margin: 0;
@@ -16,7 +16,7 @@ body {
   box-sizing: inherit;
 }
 
-/* LAYOUT */
+/* ========================= LAYOUT ========================= */
 .layout {
   display: flex;
   min-height: 100vh;
@@ -70,4 +70,82 @@ body {
 
 .page-content {
   padding: 2rem;
+}
+
+/* =========================================================
+   🧾 PRINT FIX (VERSIÓN ESTABLE - SIN ROMPER LAYOUT)
+========================================================= */
+@media print {
+
+  /* 🔥 1. OCULTAR TODO EL LAYOUT GLOBAL */
+  .layout,
+  .sidebar,
+  .topbar {
+    display: none !important;
+  }
+
+  /* 🔥 2. ASEGURAR QUE SOLO SE IMPRIMA LA FACTURA */
+  app-factura {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  /* 🔥 3. RESET GENERAL */
+  body, html {
+    height: auto !important;
+    overflow: visible !important;
+    background: white !important;
+  }
+
+  /* ================= FACTURA ================= */
+
+  .invoice-page {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: white !important;
+  }
+
+  .invoice-card {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    max-width: 100% !important;
+  }
+
+  /* 🔥 CLAVE REAL DEL FIX: NO FLEX EN HEADER EN PRINT */
+  .invoice-header {
+    display: block !important;
+    width: 100% !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .invoice-meta,
+  .invoice-table,
+  .invoice-footer {
+    display: block !important;
+    width: 100% !important;
+    margin-top: 1rem !important;
+  }
+
+  .invoice-table .row {
+    display: flex !important;
+    justify-content: space-between !important;
+  }
+
+  /* mantener colores */
+  .invoice-header,
+  .invoice-table .header {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* evitar cortes raros */
+  .invoice-card {
+    break-inside: avoid;
+  }
+
+  /* ocultar UI */
+  .invoice-actions,
+  .modal-backdrop {
+    display: none !important;
+  }
 }

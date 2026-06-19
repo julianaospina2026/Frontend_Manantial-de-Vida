@@ -1,57 +1,129 @@
 <section class="role-page operator-page">
   <div class="role-card">
+
     <div class="operator-header">
       <div>
         <h1>Bienvenido Operador</h1>
-        <p>Esta es la vista del operador para gestionar lectura de medidores y soporte operativo.</p>
+        <p>
+          Consulta los clientes registrados y realiza la toma de lecturas.
+        </p>
       </div>
-      <img class="hero-image" src="/assets/operador.png" alt="Operador del acueducto" />
+
+      <img
+        class="hero-image"
+        src="/assets/operador.png"
+        alt="Operador del acueducto"
+      />
     </div>
 
     <div class="status-row">
       <article class="status-card">
-        <strong>{{ pendientes.length }}</strong>
-        <span>Lecturas pendientes</span>
+        <strong>{{ clientes.length }}</strong>
+        <span>Clientes registrados</span>
       </article>
     </div>
 
     <section class="pendientes">
-      <h3>Lecturas pendientes</h3>
-      <div *ngIf="!pendientes.length">No hay lecturas pendientes.</div>
-      <ul *ngIf="pendientes.length" class="pendientes-list">
-        <li *ngFor="let p of pendientes">
+
+      <h3>Clientes</h3>
+
+      <div *ngIf="!clientes.length">
+        No hay clientes registrados.
+      </div>
+
+      <ul *ngIf="clientes.length" class="pendientes-list">
+
+        <li *ngFor="let cliente of clientes">
+
           <div class="item">
+
             <div class="meta">
+
               <div class="title-row">
-                <strong>{{ p.clienteNombre || 'Cliente sin nombre' }}</strong>
-                <span class="badge status">{{ p.estado || 'PENDIENTE' }}</span>
+                <strong>
+                  {{ cliente.nombre }}
+                  {{ cliente.apellido }}
+                </strong>
+
+                <span class="badge status">
+                  {{ cliente.estado || 'ACTIVO' }}
+                </span>
               </div>
+
               <div class="datos">
-                <span><strong>Medidor:</strong> {{ p.medidorSerial || 'N/A' }}</span>
-                <span><strong>Fecha:</strong> {{ p.fechaProgramada | date:'short' }}</span>
+                <span>
+                  <strong>Código:</strong>
+                  {{ cliente.codigoCliente }}
+                </span>
+
+                <span>
+                  <strong>Documento:</strong>
+                  {{ cliente.documentoIdentidad }}
+                </span>
               </div>
+
               <div class="datos">
-                <span><strong>Zona:</strong> {{ p.clienteZona || 'No disponible' }}</span>
-                <span><strong>Vereda:</strong> {{ p.clienteVereda || 'No disponible' }}</span>
+                <span>
+                  <strong>Dirección:</strong>
+                  {{ cliente.direccion }}
+                </span>
               </div>
+
               <div class="datos">
-                <span><strong>Dirección:</strong> {{ p.clienteDireccion || 'No disponible' }}</span>
+                <span>
+                  <strong>Zona:</strong>
+                  {{ cliente.zona }}
+                </span>
+
+                <span>
+                  <strong>Vereda:</strong>
+                  {{ cliente.vereda }}
+                </span>
               </div>
+
               <div class="datos">
-                <span><strong>Email:</strong> {{ p.clienteEmail || 'No disponible' }}</span>
-                <span><strong>Celular:</strong> {{ p.clienteTelefono || 'No disponible' }}</span>
+                <span>
+                  <strong>Correo:</strong>
+                  {{ cliente.correo }}
+                </span>
+
+                <span>
+                  <strong>Teléfono:</strong>
+                  {{ cliente.telefono }}
+                </span>
               </div>
+
             </div>
+
             <div class="actions">
-              <button class="btn btn-primary" (click)="marcarRealizada(p)">Marcar realizada</button>
+
+              <button
+                class="btn btn-primary"
+                [routerLink]="['/lecturas/crear', cliente.id]">
+
+                Registrar lectura
+
+              </button>
+
             </div>
+
           </div>
+
         </li>
+
       </ul>
+
     </section>
 
     <div class="role-actions">
-      <a routerLink="/inicio" class="btn btn-secondary">Volver al inicio</a>
+      <a
+        routerLink="/inicio"
+        class="btn btn-secondary">
+
+        Volver al inicio
+
+      </a>
     </div>
+
   </div>
 </section>

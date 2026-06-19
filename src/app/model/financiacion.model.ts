@@ -1,8 +1,19 @@
 export interface Financiacion {
-    id?: number;
-    clienteId: number;
-    montoTotal: number;
-    numeroCuotas: number;
-    estado?: string; // PENDIENTE, ACTIVA, FINALIZADA
-    fechaCreacion?: string;
+  id: number;
+
+  montoTotal: number;
+
+  cuotasTotales: number;
+
+  cuotasPagadas: number;
+
+  valorCuota: number;
+
+  concepto: string;
+
+  fechaInicio?: string;
+
+  cliente?: {
+    id: number;
+  };
 }

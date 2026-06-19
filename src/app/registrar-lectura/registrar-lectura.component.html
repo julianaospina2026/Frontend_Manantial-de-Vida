@@ -1,0 +1,84 @@
+<div class="container">
+
+  <div class="card form-card">
+
+    <!-- HEADER -->
+    <div class="header">
+      <h2>💧 Registro de Lectura</h2>
+    </div>
+
+    <!-- ALERTA / MENSAJE -->
+    <div *ngIf="mensaje" class="alert">
+      {{ mensaje }}
+    </div>
+
+    <!-- FORMULARIO -->
+    <form [formGroup]="form" (ngSubmit)="guardar()">
+
+      <!-- ID CLIENTE -->
+      <div class="form-group">
+        <label for="clienteId">ID del Cliente</label>
+        <input
+          id="clienteId"
+          type="number"
+          formControlName="clienteId"
+          placeholder="Ingrese el ID del cliente">
+      </div>
+
+      <!-- PERIODO -->
+      <div class="form-group">
+        <label for="periodo">Periodo</label>
+        <input
+          id="periodo"
+          type="month"
+          formControlName="periodo">
+      </div>
+
+      <!-- LECTURA -->
+      <div class="form-group">
+        <label for="lecturaActual">Lectura actual</label>
+        <input
+          id="lecturaActual"
+          type="number"
+          formControlName="lecturaActual">
+      </div>
+
+      <!-- OBSERVACIÓN -->
+      <div class="form-group">
+        <label for="observacion">Observación</label>
+        <textarea
+          id="observacion"
+          formControlName="observacion">
+        </textarea>
+      </div>
+
+      <!-- BOTÓN GUARDAR -->
+      <button
+        type="submit"
+        class="btn-primary"
+        [disabled]="cargando || form.invalid">
+
+        {{ cargando ? 'Guardando...' : 'Guardar Lectura' }}
+
+      </button>
+
+    </form>
+
+    <!-- ACCIONES -->
+    <div class="actions">
+
+      <button
+        type="button"
+        class="btn-secondary"
+        (click)="nuevaLectura()"
+        [disabled]="cargando">
+
+        ➕ Registrar otra lectura
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

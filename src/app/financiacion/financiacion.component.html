@@ -1,58 +1,222 @@
-<div class="container">
-  <h2>Gestión de Financiaciones</h2>
+<div class="financiacion-container">
 
-  <section class="card">
-    <h3>Nueva Financiación</h3>
-    <form [formGroup]="form" (ngSubmit)="guardar()">
-      <div class="form-grid">
-        <label>
-          ID Cliente
-          <input type="number" formControlName="clienteId" />
-        </label>
-        <label>
-          Monto Total
-          <input type="number" formControlName="montoTotal" />
-        </label>
-        <label>
-          Número de Cuotas
-          <input type="number" formControlName="numeroCuotas" />
-        </label>
+  <!-- HEADER -->
+  <section class="hero-card">
+
+    <div class="hero-content">
+
+      <h1>💰 Solicitud de Financiación</h1>
+
+      <p>
+        Financia tus facturas pendientes de forma fácil y rápida.
+      </p>
+
+      <!-- DEBUG -->
+      <div class="debug-info">
+
+        <p>
+          <strong>Cliente ID:</strong>
+          {{ clienteId }}
+        </p>
+
+        <p>
+          <strong>Facturas encontradas:</strong>
+          {{ facturasPendientes?.length || 0 }}
+        </p>
+
       </div>
-      <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Crear Plan</button>
-    </form>
-    <p *ngIf="mensaje">{{ mensaje }}</p>
-  </section>
 
-  <section class="card">
-    <h3>Consultar por Cliente</h3>
-    <div class="search-bar">
-      <input type="number" [(ngModel)]="clienteIdBusqueda" placeholder="ID del cliente..." />
-      <button (click)="buscarPorCliente()" class="btn btn-secondary">Buscar</button>
     </div>
 
-    <table *ngIf="financiaciones.length > 0">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Monto</th>
-          <th>Cuotas</th>
-          <th>Estado</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let f of financiaciones">
-          <td>{{ f.id }}</td>
-          <td>{{ f.montoTotal | currency }}</td>
-          <td>{{ f.numeroCuotas }}</td>
-          <td><span class="badge">{{ f.estado }}</span></td>
-          <td>
-            <!-- Ajustar según la ruta definitiva -->
-            <a [routerLink]="['/admin/cuotas-financiacion', f.id]" class="btn-link">Ver Cuotas</a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <p *ngIf="financiaciones.length === 0 && clienteIdBusqueda > 0">No hay planes registrados.</p>
   </section>
-</div>
+
+  <!-- DASHBOARD -->
+  <section class="resumen-card">
+
+    <div class="resumen-item">
+      <span>Total pendiente</span>
+      <h2>${{ totalPendiente | number }}</h2>
+    </div>
+
+    <div class="resumen-item">
+      <span>Facturas pendientes</span>
+      <h2>{{ facturasPendientes?.length || 0 }}</h2>
+    </div>
+
+    <div class="resumen-item">
+      <span>Seleccionadas</span>
+      <h2>{{ facturasSeleccionadas?.length || 0 }}</h2>
+    </div>
+
+  </section>
+
+  <!-- FACTURAS -->
+  <section class="section">
+
+    <h2>📄 Facturas Pendientes</h2>
+
+    <div class="facturas-grid"
+    *ngIf="(facturasPendientes?.length ?? 0) > 0; else sinFacturas">
+
+      <div class="factura-card"
+           *ngFor="let factura of facturasPendientes"
+          [class.selected]="estaSeleccionada(factura)">
+
+        <div class="factura-header">
+
+          <h3>Factura #{{ factura.id }}</h3>
+
+          <span class="estado">
+            {{ factura.estado }}
+          </span>
+
+        </div>
+
+        <p>
+          <strong>Periodo:</strong>
+          {{ factura.lectura?.periodo || 'N/A' }}
+        </p>
+
+        <p>
+          <strong>Consumo:</strong>
+          {{ factura.lectura?.consumoM3 || 0 }} m³
+        </p>
+
+        <div class="valor">
+          ${{ factura.totalPagar | number }}
+        </div>
+
+        <label class="checkbox-container">
+
+          <input type="checkbox"
+                 [checked]="estaSeleccionada(factura)"
+                 (change)="toggleFactura(factura)" />
+
+          <span>
+            {{ estaSeleccionada(factura) ? 'Seleccionada' : 'Seleccionar' }}
+          </span>
+
+        </label>
+
+      </div>
+
+    </div>
+
+    <ng-template #sinFacturas>
+      <div class="sin-datos">
+        <p>No existen facturas pendientes para este cliente.</p>
+      </div>
+    </ng-template>
+
+  </section>
+
+  <!-- SIMULADOR -->
+  <section class="simulador-card"
+           *ngIf="montoSeleccionado > 0">
+
+    <h2>🧮 Simulador de Financiación</h2>
+
+    <div class="simulador-grid">
+
+      <div>
+        <label>Monto seleccionado</label>
+        <h3>${{ montoSeleccionado | number }}</h3>
+      </div>
+
+      <div>
+        <label>Cuotas</label>
+
+        <select [(ngModel)]="cuotasSeleccionadas"
+                (change)="calcularCuota()">
+
+          <option [ngValue]="3">3 cuotas</option>
+          <option [ngValue]="6">6 cuotas</option>
+          <option [ngValue]="12">12 cuotas</option>
+          <option [ngValue]="24">24 cuotas</option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+    <div class="resultado">
+
+      <div>
+        <span>Valor financiado</span>
+        <strong>${{ montoSeleccionado | number }}</strong>
+      </div>
+
+      <div>
+        <span>Valor por cuota</span>
+        <strong class="cuota">
+          ${{ valorCuota | number:'1.0-0' }}
+        </strong>
+      </div>
+
+    </div>
+
+    <button class="btn-financiar"
+            [disabled]="facturasSeleccionadas?.length === 0"
+            (click)="crearFinanciacion()">
+
+      Solicitar Financiación
+    </button>
+
+    <p class="mensaje-ok" *ngIf="mensaje">
+      {{ mensaje }}
+    </p>
+
+  </section>
+
+  <!-- HISTORIAL -->
+  <section class="section">
+
+    <h2>📋 Mis Financiaciones</h2>
+
+    <div class="planes-grid"
+    *ngIf="(financiaciones?.length ?? 0) > 0; else sinFinanciaciones">
+  
+
+      <div class="plan-card"
+           *ngFor="let f of financiaciones">
+
+        <h3>Plan #{{ f.id }}</h3>
+
+        <p>
+          Valor total:
+          <strong>${{ f.montoTotal | number }}</strong>
+        </p>
+
+        <p>
+          Cuotas: {{ f.cuotasTotales }}
+        </p>
+
+        <p>
+          Pagadas: {{ f.cuotasPagadas }} / {{ f.cuotasTotales }}
+        </p>
+
+        <p>
+          Valor cuota:
+          <strong>${{ f.valorCuota | number }}</strong>
+        </p>
+
+        <span class="badge"
+              [class.finalizada]="esFinalizada(f)">
+
+          {{ esFinalizada(f) ? 'Finalizada' : 'Activa' }}
+
+        </span>
+
+      </div>
+
+    </div>
+
+    <ng-template #sinFinanciaciones>
+      <div class="sin-datos">
+        <p>No existen financiaciones registradas.</p>
+      </div>
+    </ng-template>
+
+  </section>
+  </div>

@@ -1,12 +1,25 @@
+import { Cliente } from './clientes.model';
+
 export interface FacturaLectura {
   id?: number;
-  cliente?: {
-    id?: number;
-    nombre?: string;
-    apellido?: string;
-    documento?: string;
-  };
+
+  cliente?: Cliente;
+
   medidorSerial?: string;
+
+  periodo?: string;
+
+  fechaLectura?: string;
+
+  lecturaAnterior?: number;
+
+  lecturaActual?: number;
+
+  consumoM3?: number;   // 🔥 ESTE ES EL QUE TE FALTABA
+
+  observacion?: string;
+
+  valor?: number;
 }
 
 export interface Factura {
@@ -18,5 +31,5 @@ export interface Factura {
   cargoFijo?: number;
   otrosCobros?: number;
   totalPagar?: number;
-  estado?: 'PENDIENTE' | 'PAGADA' | 'ANULADA' | string;
+  estado?: 'PENDIENTE' | 'PAGA' | 'ANULADA' | string;
 }

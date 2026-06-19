@@ -2,30 +2,40 @@
 
   <!-- ================= HEADER ================= -->
   <div class="admin-header">
+
     <div class="admin-header-copy">
 
-      <p class="eyebrow">Panel de control</p>
+      <p class="eyebrow">
+        Panel de control
+      </p>
 
-      <h1>Bienvenido Administrador</h1>
+      <h1>
+        Bienvenido Administrador
+      </h1>
 
       <p>
-        Gestiona pagos, facturas, financiamiento, usuarios y turnos de tu
-        acueducto desde aquí.
+        Gestiona pagos, facturas, financiamiento, usuarios y turnos
+        de tu acueducto desde aquí.
       </p>
 
       <div class="admin-actions">
 
-        <a routerLink="/inicio" class="btn btn-secondary">
+        <a
+          routerLink="/inicio"
+          class="btn btn-secondary">
           Volver al inicio
         </a>
 
-        <a routerLink="/admin/crear-usuario" class="btn btn-primary">
+        <a
+          routerLink="/admin/crear-usuario"
+          class="btn btn-primary">
           Crear usuario
         </a>
 
       </div>
 
     </div>
+
   </div>
 
   <!-- ================= RESUMEN ================= -->
@@ -37,7 +47,9 @@
       [ngClass]="card.accent">
 
       <h3>{{ card.title }}</h3>
+
       <strong>{{ card.value }}</strong>
+
       <p>{{ card.description }}</p>
 
     </article>
@@ -47,18 +59,22 @@
   <!-- ================= CUERPO ================= -->
   <div class="admin-body">
 
-    <!-- ===== IZQUIERDA ===== -->
+    <!-- ================= IZQUIERDA ================= -->
     <div class="left-column">
 
       <!-- PAGOS -->
       <section class="panel">
 
         <div class="panel-header">
-          <h2>Historial de pagos</h2>
 
-          <a routerLink="/admin/pagos" class="link-action">
+          <h2>💰 Historial de pagos</h2>
+
+          <a
+            routerLink="/admin/pagos"
+            class="link-action">
             Ver todo
           </a>
+
         </div>
 
         <table>
@@ -76,18 +92,27 @@
 
             <tr *ngFor="let payment of paymentHistory">
 
-              <td>{{ payment.cliente }}</td>
-              <td>{{ payment.fecha }}</td>
+              <td>
+                {{
+                  payment?.factura?.lectura?.cliente?.nombre
+                  || payment?.factura?.lectura?.cliente
+                  || 'Sin cliente'
+                }}
+              </td>
 
               <td>
-                <span
-                  class="badge"
-                  [ngClass]="payment.estado.toLowerCase()">
-                  {{ payment.estado }}
+                {{ payment?.fechaPago || '---' }}
+              </td>
+
+              <td>
+                <span class="badge">
+                  {{ payment?.estado || 'SIN ESTADO' }}
                 </span>
               </td>
 
-              <td>{{ payment.monto }}</td>
+              <td>
+                {{ payment?.monto ?? 0 }}
+              </td>
 
             </tr>
 
@@ -101,11 +126,15 @@
       <section class="panel">
 
         <div class="panel-header">
-          <h2>Historial de facturas</h2>
 
-          <a routerLink="/admin/facturacion" class="link-action">
+          <h2>🧾 Historial de facturas</h2>
+
+          <a
+            routerLink="/admin/facturacion"
+            class="link-action">
             Ver todo
           </a>
+
         </div>
 
         <table>
@@ -121,20 +150,29 @@
 
           <tbody>
 
-            <tr *ngFor="let invoice of invoiceHistory">
-
-              <td>{{ invoice.cliente }}</td>
-              <td>{{ invoice.fecha }}</td>
+            <tr *ngFor="let invoice of facturaHistory">
 
               <td>
-                <span
-                  class="badge"
-                  [ngClass]="invoice.estado.toLowerCase()">
-                  {{ invoice.estado }}
+                {{
+                  invoice?.cliente?.nombre
+                  || invoice?.cliente
+                  || 'Sin cliente'
+                }}
+              </td>
+
+              <td>
+                {{ invoice?.fecha || '---' }}
+              </td>
+
+              <td>
+                <span class="badge">
+                  {{ invoice?.estado || 'SIN ESTADO' }}
                 </span>
               </td>
 
-              <td>{{ invoice.total }}</td>
+              <td>
+                {{ invoice?.total ?? 0 }}
+              </td>
 
             </tr>
 
@@ -146,28 +184,68 @@
 
     </div>
 
-    <!-- ===== DERECHA ===== -->
+    <!-- ================= DERECHA ================= -->
     <div class="right-column">
+
+      <!-- ACCIONES RAPIDAS -->
+      <section class="panel panel-actions">
+
+        <h2>⚡ Acciones rápidas</h2>
+
+        <div class="action-grid">
+
+          <a
+            routerLink="/admin/crear-usuario"
+            class="action-card">
+            👤 Crear usuario
+          </a>
+
+          <a
+            routerLink="/admin/asignar-roles"
+            class="action-card">
+            🔐 Asignar roles
+          </a>
+
+          <a
+            routerLink="/admin/turnos"
+            class="action-card">
+            📅 Configurar turnos
+          </a>
+
+          <a
+            routerLink="/admin/reportes"
+            class="action-card">
+            📊 Generar informes
+          </a>
+
+        </div>
+
+      </section>
 
       <!-- FINANCIAMIENTO -->
       <section class="panel panel-accent">
 
-        <h2>Financiamiento</h2>
+        <h2>💰 Financiamiento</h2>
 
         <p class="panel-text">
-          Revisa solicitudes nuevas y administra financiamientos especiales
-          para obras y mejoras.
+          Revisa solicitudes nuevas y administra financiamientos
+          especiales para obras y mejoras.
         </p>
 
         <ul class="mini-list">
 
-          <li *ngFor="let request of financingRequests">
+          <li *ngFor="let request of solicitudesFinanciamiento">
 
-            <strong>{{ request.cliente }}</strong>
-            <span>{{ request.monto }}</span>
+            <strong>
+              {{ request?.cliente || 'Sin cliente' }}
+            </strong>
+
+            <span>
+              ${{ request?.monto ?? 0 }}
+            </span>
 
             <span class="status small">
-              {{ request.estado }}
+              {{ request?.estado || 'SIN ESTADO' }}
             </span>
 
           </li>
@@ -176,48 +254,30 @@
 
       </section>
 
-      <!-- ACCIONES -->
-      <section class="panel panel-actions">
-
-        <h2>Acciones rápidas</h2>
-
-        <div class="action-grid">
-
-          <a routerLink="/admin/crear-usuario" class="action-card">
-            Crear usuario
-          </a>
-
-          <a routerLink="/admin/asignar-roles" class="action-card">
-            Asignar roles
-          </a>
-
-          <a routerLink="/admin/turnos" class="action-card">
-            Configurar turnos
-          </a>
-
-          <a routerLink="/admin/reportes" class="action-card">
-            Generar informes
-          </a>
-
-        </div>
-
-      </section>
-
       <!-- TURNOS -->
       <section class="panel panel-accent">
 
-        <h2>Turnos programados</h2>
+        <h2>📅 Turnos programados</h2>
 
         <ul class="mini-list">
 
-          <li *ngFor="let shift of shifts">
+          <li *ngFor="let shift of turnos">
 
             <div>
-              <strong>{{ shift.dia }}</strong>
-              <span>{{ shift.operador }}</span>
+
+              <strong>
+                {{ shift?.dia || '---' }}
+              </strong>
+
+              <span>
+                {{ shift?.operador || '---' }}
+              </span>
+
             </div>
 
-            <div>{{ shift.hora }}</div>
+            <div>
+              {{ shift?.hora || '---' }}
+            </div>
 
           </li>
 
@@ -228,17 +288,16 @@
       <!-- REPORTES -->
       <section class="panel panel-reports">
 
-        <h2>Reportes</h2>
+        <h2>📈 Reportes</h2>
 
         <div class="report-list">
 
-          <!-- 🔥 SOLO ESTO SE AGREGÓ -->
           <a
-            *ngFor="let report of reports"
+            *ngFor="let report of reportes"
             class="report-card"
             routerLink="/admin/generar-informes">
 
-            {{ report }}
+            📄 {{ report }}
 
           </a>
 

@@ -1,160 +1,306 @@
+/* ==========================
+   CONTENEDOR
+========================== */
+
 .lectura-container {
-  padding: 2rem;
-  background-color: #f8fbfc;
-
-  /* =========================
-     TÍTULO
-  ========================= */
-  .page-title {
-    h2 {
-      color: #005b96;
-      border-left: 5px solid #00a8cc;
-      padding-left: 15px;
-      margin: 0;
-    }
-  }
-
-  /* =========================
-     FILTROS
-  ========================= */
-  .filter-panel {
-    display: flex;
-    gap: 10px;
-    margin: 20px 0;
-
-    input {
-      border: 1px solid #ced4da;
-      padding: 10px;
-      border-radius: 5px;
-      flex: 1;
-      transition: 0.3s;
-    }
-
-    input:focus {
-      border-color: #005b96;
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(0, 91, 150, 0.1);
-    }
-
-    .btn-search {
-      background: #005b96;
-      color: white;
-      border: none;
-      padding: 10px 25px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: 0.3s;
-    }
-
-    .btn-search:hover {
-      background: #004070;
-    }
-  }
-
-  /* =========================
-     TIMELINE
-  ========================= */
-  .timeline {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-top: 30px;
-  }
-
-  .timeline-item {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    border-left: 3px solid #b3cde0;
-    padding-left: 10px;
-    transition: 0.3s;
-  }
-
-  .timeline-item:hover {
-    background: #f5fbff;
-    border-left-color: #00a8cc;
-  }
-
-  /* =========================
-     FECHA
-  ========================= */
-  .date-badge {
-    background: #005b96;
-    color: white;
-    padding: 8px 15px;
-    border-radius: 5px;
-    font-weight: bold;
-    min-width: 100px;
-    text-align: center;
-    font-size: 0.85rem;
-  }
-
-  /* =========================
-     DETALLES ITEM
-  ========================= */
-  .item-details {
-    flex: 1;
-  }
-
-  /* =========================
-     LECTURAS
-  ========================= */
-  .readings {
-    display: flex;
-    gap: 20px;
-    margin: 15px 0;
-  }
-
-  .read-box {
-    background: #f1f3f5;
-    padding: 10px 20px;
-    border-radius: 8px;
-    text-align: center;
-    transition: 0.3s;
-  }
-
-  .read-box small {
-    color: #666;
-    font-size: 0.7rem;
-  }
-
-  .read-box p {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin: 0;
-  }
-
-  .read-box.active {
-    background: #e0f2f1;
-    color: #007ea7;
-    border: 1px solid #00a8cc;
-    transform: scale(1.02);
-  }
-
-  /* =========================
-     ESTADOS
-  ========================= */
-  .status-text {
-    font-size: 0.85rem;
-    font-weight: 600;
-  }
-
-  .status-text.realizada {
-    color: #28a745;
-  }
-
-  .status-text.pendiente {
-    color: #f39c12;
-  }
-
-  /* =========================
-     CARD GENERAL
-  ========================= */
-  .card {
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  }
+  min-height: 100vh;
+  padding: 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
+
+/* ==========================
+   FONDO
+========================== */
+
+.lectura-container::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      rgba(255, 255, 255, 0.50),
+      rgba(255, 255, 255, 0.20)
+    ),
+    url('/assets/Blog-1-2.jpg');
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  z-index: -1;
+}
+
+/* ==========================
+   TITULO
+========================== */
+
+.page-title {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.page-title h2 {
+  margin: 0;
+  font-size: 3rem;
+  font-weight: 800;
+  color: #312c8a;
+}
+
+.page-title p {
+  margin-top: 10px;
+  color: #06509a;
+  font-size: 1.1rem;
+}
+
+/* ==========================
+   GRID
+========================== */
+
+.historial-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(320px, 360px));
+
+  justify-content: center;
+
+  gap: 24px;
+}
+
+/* ==========================
+   TARJETA
+========================== */
+
+.consumo-card {
+  width: 100%;
+  max-width: 360px;
+
+  background: rgba(255, 255, 255, 0.95);
+
+  backdrop-filter: blur(10px);
+
+  border-radius: 22px;
+
+  padding: 22px;
+
+  border-top: 4px solid #00b4d8;
+
+  box-shadow:
+    0 8px 25px rgba(0, 80, 120, 0.08);
+
+  transition: all 0.3s ease;
+
+  overflow: hidden;
+}
+
+.consumo-card:hover {
+  transform: translateY(-6px);
+
+  box-shadow:
+    0 15px 35px rgba(0, 80, 120, 0.15);
+}
+
+/* ==========================
+   ENCABEZADO
+========================== */
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 22px;
+}
+
+.card-header h3 {
+  margin: 0;
+  color: #005b96;
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.fecha {
+  display: block;
+  margin-top: 5px;
+  color: #7d8b99;
+  font-size: 0.9rem;
+}
+
+/* ==========================
+   ESTADO
+========================== */
+
+.estado {
+  background: #e6f8ff;
+  color: #0088aa;
+
+  padding: 8px 15px;
+
+  border-radius: 30px;
+
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+/* ==========================
+   VALOR
+========================== */
+
+.valor-section {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.valor-label {
+  display: block;
+  color: #7d8b99;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.valor-principal {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #0096c7;
+  line-height: 1;
+}
+
+/* ==========================
+   ESTADISTICAS
+========================== */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.stat {
+  background: #f8fcfe;
+
+  border: 1px solid #edf3f6;
+
+  border-radius: 16px;
+
+  padding: 14px;
+
+  text-align: center;
+}
+
+.stat small {
+  display: block;
+
+  color: #7d8b99;
+
+  margin-bottom: 8px;
+
+  font-size: 0.75rem;
+}
+
+.stat strong {
+  font-size: 1.3rem;
+  color: #1f2937;
+}
+
+.consumo {
+  background: linear-gradient(
+    135deg,
+    #dff6ff,
+    #c8efff
+  );
+}
+
+.consumo strong {
+  color: #0077b6;
+}
+
+/* ==========================
+   OBSERVACION
+========================== */
+
+.observacion {
+  margin-top: 18px;
+
+  background: #f0fbff;
+
+  border-left: 4px solid #00b4d8;
+
+  padding: 12px 15px;
+
+  border-radius: 12px;
+
+  color: #006699;
+
+  font-weight: 600;
+}
+
+/* ==========================
+   SIN DATOS
+========================== */
+
+.no-data {
+  background: rgba(255,255,255,.95);
+
+  backdrop-filter: blur(10px);
+
+  border-radius: 20px;
+
+  padding: 50px;
+
+  text-align: center;
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.06);
+}
+
+.no-data h3 {
+  color: #005b96;
+  margin-bottom: 10px;
+}
+
+.no-data p {
+  color: #6c757d;
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media (max-width: 768px) {
+
+  .lectura-container {
+    padding: 20px;
+  }
+
+  .page-title h2 {
+    font-size: 2rem;
+  }
+
+  .historial-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .consumo-card {
+    max-width: 100%;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .card-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .valor-principal {
+    font-size: 2.3rem;
+  }
+
+}
+

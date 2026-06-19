@@ -1,33 +1,103 @@
-<div class="pagos-view">
-    <div class="header">
-        <h2><i class="fas fa-file-invoice-dollar"></i> Historial de Pagos Recibidos</h2>
+<div class="historial-page">
+
+    <!-- HEADER -->
+    <div class="hero-section">
+        <h1>📜 Historial de Pagos</h1>
+        <p>
+            Consulta todos los pagos realizados en tu cuenta de acueducto.
+        </p>
     </div>
 
-    <div class="search card">
-        <input type="number" [(ngModel)]="clienteId" placeholder="ID del usuario">
-        <button (click)="cargar()">Buscar Pagos</button>
-    </div>
+    <!-- TABLA -->
+    <div class="table-card" *ngIf="pagos.length > 0">
 
-    <div class="table-container card" *ngIf="pagos.length > 0">
         <table>
+
             <thead>
                 <tr>
-                    <th>Referencia Pago</th>
-                    <th>N° Factura</th>
-                    <th>Fecha de Pago</th>
+                    <th>Referencia</th>
+                    <th>Factura</th>
+                    <th>Fecha</th>
                     <th>Método</th>
-                    <th>Monto Pagado</th>
+                    <th>Valor Pagado</th>
                 </tr>
             </thead>
+
             <tbody>
+
                 <tr *ngFor="let p of pagos">
-                    <td>#PAG-{{ p.id }}</td>
-                    <td>FAC-{{ p.facturaId }}</td>
-                    <td>{{ p.fechaPago | date:'medium' }}</td>
-                    <td><span class="method-tag">{{ p.metodoPago }}</span></td>
-                    <td class="amount">{{ p.monto | currency }}</td>
+
+                    <td>
+                        #PAG-{{ p.id }}
+                    </td>
+
+                    <td>
+                        FAC-{{ p.facturaId }}
+                    </td>
+
+                    <td>
+                        {{ p.fechaPago | date:'dd/MM/yyyy HH:mm' }}
+                    </td>
+
+                    <td>
+                        <span class="method-tag">
+                            {{ p.metodoPago }}
+                        </span>
+                    </td>
+
+                    <td class="amount">
+                        {{ p.monto | currency:'COP ':'symbol':'1.0-0' }}
+                    </td>
+
                 </tr>
+
             </tbody>
+
         </table>
+
     </div>
+
+    <!-- SIN DATOS -->
+    <div
+        class="empty-card"
+        *ngIf="!loading && pagos.length === 0">
+
+        <div class="empty-icon">
+            💳
+        </div>
+
+        <h3>
+            No hay pagos registrados
+        </h3>
+
+        <p>
+            Aún no se han encontrado pagos para tu cuenta.
+        </p>
+
+    </div>
+
+    <!-- LOADING -->
+    <div
+        class="loading-card"
+        *ngIf="loading">
+
+        <h3>
+            Cargando historial...
+        </h3>
+
+    </div>
+
+    <!-- BOTON VOLVER -->
+    <div class="footer-actions">
+
+        <button
+            class="btn-back"
+            routerLink="/portal-usuario">
+
+            ← Volver al Portal
+
+        </button>
+
+    </div>
+
 </div>

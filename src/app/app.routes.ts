@@ -1,26 +1,50 @@
 import { Routes } from '@angular/router';
 
+// ========================
+// PÚBLICO
+// ========================
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 
+// ========================
+// ADMIN
+// ========================
 import { AdminComponent } from './admin/admin.component';
-import { GenerarInformesComponent } from './admin/generar-informes.component';
-
-import { OperatorComponent as OperadorComponent } from './operator/operator.component';
-import { PresidenteComponent } from './presidente/presidente.component';
-
-import { UsuarioPortalComponent } from './usuario-portal/usuario-portal.component';
-import { UsuarioComponent } from './usuario/usuario.component';
 import { CrearUsuarioComponent } from './crear-usuario/crear-usuario.component';
-
 import { AsignarRolesComponent } from './admin/asignar-roles.component';
+import { VerReportesComponent } from './admin/ver-reportes.component';
+import { UsuarioComponent } from './usuario/usuario.component';
 
+// ========================
+// USUARIO
+// ========================
+import { UsuarioPortalComponent } from './usuario-portal/usuario-portal.component';
 import { PagoComponent } from './pago/pago.component';
 import { FacturaComponent } from './factura/factura.component';
 import { FinanciacionComponent } from './financiacion/financiacion.component';
+import { HistorialLecturaComponent } from './historiallectura/historiallectura.component';
+import { HistorialPagosComponent } from './historialpagos/historialpagos.component';
+
+// ========================
+// OPERADOR
+// ========================
+import { OperatorComponent as OperadorComponent } from './operator/operator.component';
+import { RegistrarLecturaComponent } from './registrar-lectura/registrar-lectura.component';
+
+// ========================
+// PRESIDENTE
+// ========================
+import { PresidenteComponent } from './presidente/presidente.component';
+
+// ========================
+// SISTEMA
+// ========================
 import { TurnoComponent } from './turno/turno.component';
 import { ReportesComponent } from './reportes/reportes.component';
 
+// ========================
+// GUARD
+// ========================
 import { roleGuard } from './role.guard';
 
 export const routes: Routes = [
@@ -33,6 +57,7 @@ export const routes: Routes = [
     redirectTo: 'inicio',
     pathMatch: 'full'
   },
+
   {
     path: 'inicio',
     component: HomeComponent
@@ -45,6 +70,7 @@ export const routes: Routes = [
     path: 'login',
     component: LoginComponent
   },
+
   {
     path: 'administrador/login',
     component: LoginComponent
@@ -55,11 +81,48 @@ export const routes: Routes = [
   // ========================
   {
     path: 'portal-usuario',
-    component: UsuarioPortalComponent
+    component: UsuarioPortalComponent,
+    canActivate: [roleGuard],
+    data: { expectedRole: 'USUARIO' }
+  },
+
+  {
+    path: 'portal-usuario/pagos',
+    component: PagoComponent,
+    canActivate: [roleGuard],
+    data: { expectedRole: 'USUARIO' }
+  },
+
+  {
+    path: 'portal-usuario/historial-pagos',
+    component: HistorialPagosComponent,
+    canActivate: [roleGuard],
+    data: { expectedRole: 'USUARIO' }
+  },
+
+  {
+    path: 'portal-usuario/financiacion',
+    component: FinanciacionComponent,
+    canActivate: [roleGuard],
+    data: { expectedRole: 'USUARIO' }
+  },
+
+  {
+    path: 'portal-usuario/historial-lecturas',
+    component: HistorialLecturaComponent,
+    canActivate: [roleGuard],
+    data: { expectedRole: 'USUARIO' }
+  },
+
+  {
+    path: 'factura/:lecturaId',
+    component: FacturaComponent,
+    canActivate: [roleGuard],
+    data: { expectedRole: 'USUARIO' }
   },
 
   // ========================
-  // PANEL ADMINISTRADOR
+  // ADMINISTRADOR
   // ========================
   {
     path: 'administrador/panel',
@@ -68,21 +131,20 @@ export const routes: Routes = [
     data: { expectedRole: 'ADMINISTRADOR' }
   },
 
-  // ========================
-  // USUARIOS
-  // ========================
   {
     path: 'usuarios',
     component: UsuarioComponent,
     canActivate: [roleGuard],
     data: { expectedRole: 'ADMINISTRADOR' }
   },
+
   {
     path: 'admin/crear-usuario',
     component: CrearUsuarioComponent,
     canActivate: [roleGuard],
     data: { expectedRole: 'ADMINISTRADOR' }
   },
+
   {
     path: 'admin/asignar-roles',
     component: AsignarRolesComponent,
@@ -90,9 +152,6 @@ export const routes: Routes = [
     data: { expectedRole: 'ADMINISTRADOR' }
   },
 
-  // ========================
-  // PAGOS
-  // ========================
   {
     path: 'admin/pagos',
     component: PagoComponent,
@@ -100,9 +159,6 @@ export const routes: Routes = [
     data: { expectedRole: 'ADMINISTRADOR' }
   },
 
-  // ========================
-  // FACTURACIÓN
-  // ========================
   {
     path: 'admin/facturacion',
     component: FacturaComponent,
@@ -110,9 +166,6 @@ export const routes: Routes = [
     data: { expectedRole: 'ADMINISTRADOR' }
   },
 
-  // ========================
-  // FINANCIAMIENTO
-  // ========================
   {
     path: 'admin/financiamiento',
     component: FinanciacionComponent,
@@ -120,9 +173,13 @@ export const routes: Routes = [
     data: { expectedRole: 'ADMINISTRADOR' }
   },
 
-  // ========================
-  // TURNOS
-  // ========================
+  {
+    path: 'admin/financiamiento/:id',
+    component: FinanciacionComponent,
+    canActivate: [roleGuard],
+    data: { expectedRole: 'ADMINISTRADOR' }
+  },
+
   {
     path: 'admin/turnos',
     component: TurnoComponent,
@@ -130,22 +187,16 @@ export const routes: Routes = [
     data: { expectedRole: 'ADMINISTRADOR' }
   },
 
-  // ========================
-  // REPORTE MENSUAL
-  // ========================
   {
-    path: 'admin/generar-informes',
-    component: GenerarInformesComponent,
+    path: 'admin/reportes',
+    component: ReportesComponent,
     canActivate: [roleGuard],
     data: { expectedRole: 'ADMINISTRADOR' }
   },
 
-  // ========================
-  // REPORTES GENERALES
-  // ========================
   {
-    path: 'admin/reportes',
-    component: ReportesComponent,
+    path: 'admin/generar-informes',
+    component: VerReportesComponent,
     canActivate: [roleGuard],
     data: { expectedRole: 'ADMINISTRADOR' }
   },
@@ -156,6 +207,20 @@ export const routes: Routes = [
   {
     path: 'operador',
     component: OperadorComponent,
+    canActivate: [roleGuard],
+    data: { expectedRole: 'OPERADOR' }
+  },
+
+  {
+    path: 'operador/lecturas',
+    component: HistorialLecturaComponent,
+    canActivate: [roleGuard],
+    data: { expectedRole: 'OPERADOR' }
+  },
+
+  {
+    path: 'lecturas/crear/:id',
+    component: RegistrarLecturaComponent,
     canActivate: [roleGuard],
     data: { expectedRole: 'OPERADOR' }
   },
@@ -171,7 +236,7 @@ export const routes: Routes = [
   },
 
   // ========================
-  // RUTA NO ENCONTRADA
+  // FALLBACK
   // ========================
   {
     path: '**',

@@ -1,38 +1,85 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+
 import { HistorialLecturaService } from '../service/historiallectura.service';
 import { Lectura } from '../model/lectura.model';
 
 @Component({
-    selector: 'app-historial-lectura',
-    standalone: true,
-    imports: [CommonModule, FormsModule, ReactiveFormsModule],
-    templateUrl: './historiallectura.component.html',
-    styleUrls: ['./historiallectura.component.scss']
+selector: 'app-historial-lectura',
+standalone: true,
+imports: [
+CommonModule,
+RouterModule
+],
+templateUrl: './historiallectura.component.html',
+styleUrls: ['./historiallectura.component.scss']
 })
 export class HistorialLecturaComponent implements OnInit {
-    historial: Lectura[] = [];
-    idBusqueda: number = 0;
-    cargando = false;
 
-    constructor(private service: HistorialLecturaService) {}
+historial: Lectura[] = [];
+cargando = false;
+clienteId: number | null = null;
 
-    ngOnInit(): void {}
-    
-    buscar(): void {
-        if (this.idBusqueda > 0) {
-            this.cargando = true;
-            this.service.obtenerHistorial(this.idBusqueda).subscribe({
-                next: (data) => { 
-                    this.historial = data; 
-                    this.cargando = false; 
-                },
-                error: (err) => { 
-                    console.error('Error al cargar historial', err); 
-                    this.cargando = false; 
-                }
-            });
-        }
+constructor(
+private service: HistorialLecturaService
+) {}
+
+ngOnInit(): void {
+this.obtenerClienteLogueado();
+}
+
+private obtenerClienteLogueado(): void {
+
+const raw = localStorage.getItem('currentUser');
+
+if (!raw) {
+  console.error('No existe información del usuario en localStorage');
+  return;
+}
+
+try {
+
+  const currentUser = JSON.parse(raw);
+
+  this.clienteId = Number(currentUser?.clienteId);
+
+  if (!this.clienteId || this.clienteId <= 0) {
+    console.error('Cliente ID inválido');
+    return;
+  }
+
+  this.cargarHistorial();
+
+} catch (error) {
+  console.error('Error leyendo usuario de localStorage', error);
+}
+
+}
+
+cargarHistorial(): void {
+
+if (!this.clienteId) {
+  return;
+}
+
+this.cargando = true;
+
+this.service.obtenerHistorial(this.clienteId)
+  .subscribe({
+
+    next: (data: Lectura[]) => {
+      this.historial = data || [];
+      this.cargando = false;
+    },
+
+    error: (error) => {
+      console.error('Error cargando historial', error);
+      this.historial = [];
+      this.cargando = false;
     }
+
+  });
+
+}
 }
