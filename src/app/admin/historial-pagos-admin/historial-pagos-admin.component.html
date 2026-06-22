@@ -1,0 +1,78 @@
+<div class="container">
+
+  <!-- ================= HEADER ================= -->
+  <div class="header-card">
+    <h2>💧 Historial General de Pagos</h2>
+    <p>Consulta los pagos realizados por los usuarios del acueducto.</p>
+  </div>
+
+  <!-- ================= BUSCADOR ================= -->
+  <div class="busqueda">
+
+    <div class="campo">
+      <label>Número de documento del usuario</label>
+
+      <input
+        type="text"
+        [(ngModel)]="documentoIdentidad"
+        placeholder="Ingrese el número de documento"
+      />
+    </div>
+
+    <button (click)="buscarPagos()">
+      Buscar
+    </button>
+
+    <button (click)="limpiarFiltro()">
+      Limpiar
+    </button>
+
+  </div>
+
+  <!-- ================= TABLA ================= -->
+  <table *ngIf="pagosFiltrados.length > 0">
+
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Cliente</th>
+        <th>Factura</th>
+        <th>Monto</th>
+        <th>Método</th>
+        <th>Fecha</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr *ngFor="let pago of pagosFiltrados">
+
+        <td>{{ pago?.factura?.cliente?.codigoCliente || '---' }}</td>
+
+        <td>
+          {{ pago?.factura?.cliente?.nombre || '' }}
+          {{ pago?.factura?.cliente?.apellido || '' }}
+        </td>
+
+        <td>{{ pago?.factura?.numeroFactura || '---' }}</td>
+
+        <td>
+          {{ pago?.monto | currency:'COP':'symbol':'1.0-0' }}
+        </td>
+
+        <td>{{ pago?.metodoPago || '---' }}</td>
+
+        <td>{{ pago?.fechaPago | date:'dd/MM/yyyy HH:mm' }}</td>
+
+      </tr>
+
+    </tbody>
+
+  </table>
+
+  <!-- ================= SIN RESULTADOS ================= -->
+  <div *ngIf="pagosFiltrados.length === 0" class="sin-resultados">
+    No se encontraron pagos para el documento consultado.
+  </div>
+
+</div>

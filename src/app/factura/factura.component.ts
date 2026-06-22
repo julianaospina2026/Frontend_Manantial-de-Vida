@@ -14,22 +14,13 @@ import { Factura } from '../model/factura.model';
 })
 export class FacturaComponent implements OnInit {
 
-  // =========================
-  // 📦 ESTADO GENERAL
-  // =========================
   factura?: Factura;
   loading: boolean = true;
   errorMessage: string = '';
 
-  // =========================
-  // 🧠 MODALES
-  // =========================
   mostrarModalSeleccion: boolean = false;
   mostrarModalCorreo: boolean = false;
 
-  // =========================
-  // 📧 CORREO
-  // =========================
   correoEditable: string = '';
 
   constructor(
@@ -39,41 +30,46 @@ export class FacturaComponent implements OnInit {
 
   ngOnInit(): void {
 
-    const lecturaId = Number(
-      this.route.snapshot.paramMap.get('lecturaId')
-    );
+    // 🔥 FIX PRINCIPAL
+    const param = this.route.snapshot.paramMap.get('id');
+    const id = Number(param);
 
-    console.log('Lectura ID recibido:', lecturaId);
+    console.log('Factura ID recibido:', id);
 
-    if (!lecturaId || isNaN(lecturaId)) {
-      this.errorMessage = 'ID de lectura inválido para la factura.';
+    if (!param || isNaN(id) || id <= 0) {
+      this.errorMessage = 'ID de factura inválido';
       this.loading = false;
       return;
     }
 
-    this.facturaService.obtenerPorLectura(lecturaId).subscribe({
-      next: (factura: Factura) => {
+    // =========================
+    // 📡 PETICIÓN CORRECTA
+    // =========================
+    this.facturaService.obtenerPorId(id).subscribe({
+      next: (factura: Factura | null) => {
+
+        if (!factura) {
+          this.errorMessage = 'No se encontró la factura.';
+          this.loading = false;
+          return;
+        }
+
         this.factura = factura;
         this.loading = false;
       },
+
       error: (err) => {
-        console.error(err);
-        this.errorMessage = 'No se encontró la factura vinculada a esta lectura.';
+        console.error('ERROR FACTURA:', err);
+        this.errorMessage = 'No se pudo cargar la factura.';
         this.loading = false;
       }
     });
   }
 
-  // =========================
-  // 🖨️ ABRIR MODAL
-  // =========================
   imprimirFactura(): void {
     this.mostrarModalSeleccion = true;
   }
 
-  // =========================
-  // 📧 ENVIAR POR CORREO
-  // =========================
   seleccionarCorreo(): void {
 
     this.mostrarModalSeleccion = false;
@@ -84,16 +80,11 @@ export class FacturaComponent implements OnInit {
     this.mostrarModalCorreo = true;
   }
 
-  // =========================
-  // 🖨️ IMPRESIÓN FÍSICA (FIX ROBUSTO)
-  // =========================
   imprimirFisica(): void {
 
     this.mostrarModalSeleccion = false;
     this.mostrarModalCorreo = false;
 
-    // 🔥 FIX IMPORTANTE:
-    // esperar 2 ciclos de render para asegurar DOM limpio
     setTimeout(() => {
       requestAnimationFrame(() => {
         window.print();
@@ -101,16 +92,10 @@ export class FacturaComponent implements OnInit {
     }, 150);
   }
 
-  // =========================
-  // 📧 VALIDACIÓN EMAIL
-  // =========================
   validarEmail(email: string): boolean {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
 
-  // =========================
-  // 📧 CONFIRMAR ENVÍO
-  // =========================
   confirmarEnvioCorreo(): void {
 
     if (!this.correoEditable || !this.validarEmail(this.correoEditable)) {
@@ -122,7 +107,7 @@ export class FacturaComponent implements OnInit {
 
     alert(`Factura enviada al correo: ${this.correoEditable}`);
 
-    // 👉 backend real aquí
+    // backend real
     // this.facturaService.enviarCorreo(this.factura?.id, this.correoEditable)
   }
 }

@@ -5,13 +5,9 @@
 
     <div class="admin-header-copy">
 
-      <p class="eyebrow">
-        Panel de control
-      </p>
+      <p class="eyebrow">Panel de control</p>
 
-      <h1>
-        Bienvenido Administrador
-      </h1>
+      <h1>Bienvenido Administrador</h1>
 
       <p>
         Gestiona pagos, facturas, financiamiento, usuarios y turnos
@@ -20,15 +16,11 @@
 
       <div class="admin-actions">
 
-        <a
-          routerLink="/inicio"
-          class="btn btn-secondary">
+        <a routerLink="/inicio" class="btn btn-secondary">
           Volver al inicio
         </a>
 
-        <a
-          routerLink="/admin/crear-usuario"
-          class="btn btn-primary">
+        <a routerLink="/admin/crear-usuario" class="btn btn-primary">
           Crear usuario
         </a>
 
@@ -41,15 +33,12 @@
   <!-- ================= RESUMEN ================= -->
   <div class="summary-grid">
 
-    <article
-      class="summary-card"
+    <article class="summary-card"
       *ngFor="let card of summaryCards"
       [ngClass]="card.accent">
 
       <h3>{{ card.title }}</h3>
-
       <strong>{{ card.value }}</strong>
-
       <p>{{ card.description }}</p>
 
     </article>
@@ -62,23 +51,17 @@
     <!-- ================= IZQUIERDA ================= -->
     <div class="left-column">
 
-      <!-- PAGOS -->
+      <!-- ================= PAGOS ================= -->
       <section class="panel">
 
         <div class="panel-header">
-
           <h2>💰 Historial de pagos</h2>
-
-          <a
-            routerLink="/admin/pagos"
-            class="link-action">
-            Ver todo
+          <a routerLink="/admin/historial-pagos" class="link-action">
+            Ver historial completo
           </a>
-
         </div>
 
         <table>
-
           <thead>
             <tr>
               <th>Cliente</th>
@@ -89,20 +72,10 @@
           </thead>
 
           <tbody>
-
             <tr *ngFor="let payment of paymentHistory">
 
-              <td>
-                {{
-                  payment?.factura?.lectura?.cliente?.nombre
-                  || payment?.factura?.lectura?.cliente
-                  || 'Sin cliente'
-                }}
-              </td>
-
-              <td>
-                {{ payment?.fechaPago || '---' }}
-              </td>
+              <td>{{ payment?.factura?.cliente?.nombre || 'Sin cliente' }}</td>
+              <td>{{ payment?.fechaPago || '---' }}</td>
 
               <td>
                 <span class="badge">
@@ -110,41 +83,33 @@
                 </span>
               </td>
 
-              <td>
-                {{ payment?.monto ?? 0 }}
-              </td>
+              <td>{{ payment?.monto ?? 0 }}</td>
 
             </tr>
-
           </tbody>
-
         </table>
 
       </section>
 
-      <!-- FACTURAS -->
+      <!-- ================= FACTURAS ================= -->
       <section class="panel">
 
         <div class="panel-header">
-
           <h2>🧾 Historial de facturas</h2>
-
-          <a
-            routerLink="/admin/facturacion"
-            class="link-action">
+          <a routerLink="/admin/facturacion" class="link-action">
             Ver todo
           </a>
-
         </div>
 
         <table>
-
           <thead>
             <tr>
+              <th>ID</th>
               <th>Cliente</th>
               <th>Fecha</th>
               <th>Estado</th>
               <th>Total</th>
+              <th>Acción</th>
             </tr>
           </thead>
 
@@ -152,17 +117,9 @@
 
             <tr *ngFor="let invoice of facturaHistory">
 
-              <td>
-                {{
-                  invoice?.cliente?.nombre
-                  || invoice?.cliente
-                  || 'Sin cliente'
-                }}
-              </td>
-
-              <td>
-                {{ invoice?.fecha || '---' }}
-              </td>
+              <td>{{ invoice?.id }}</td>
+              <td>{{ invoice?.cliente?.nombre || 'Sin cliente' }}</td>
+              <td>{{ invoice?.fechaEmision || '---' }}</td>
 
               <td>
                 <span class="badge">
@@ -170,14 +127,17 @@
                 </span>
               </td>
 
+              <td>{{ invoice?.totalPagar ?? 0 }}</td>
+
               <td>
-                {{ invoice?.total ?? 0 }}
+                <button class="btn-view" (click)="verFactura(invoice)">
+                  Ver
+                </button>
               </td>
 
             </tr>
 
           </tbody>
-
         </table>
 
       </section>
@@ -187,119 +147,16 @@
     <!-- ================= DERECHA ================= -->
     <div class="right-column">
 
-      <!-- ACCIONES RAPIDAS -->
       <section class="panel panel-actions">
 
         <h2>⚡ Acciones rápidas</h2>
 
         <div class="action-grid">
 
-          <a
-            routerLink="/admin/crear-usuario"
-            class="action-card">
-            👤 Crear usuario
-          </a>
-
-          <a
-            routerLink="/admin/asignar-roles"
-            class="action-card">
-            🔐 Asignar roles
-          </a>
-
-          <a
-            routerLink="/admin/turnos"
-            class="action-card">
-            📅 Configurar turnos
-          </a>
-
-          <a
-            routerLink="/admin/reportes"
-            class="action-card">
-            📊 Generar informes
-          </a>
-
-        </div>
-
-      </section>
-
-      <!-- FINANCIAMIENTO -->
-      <section class="panel panel-accent">
-
-        <h2>💰 Financiamiento</h2>
-
-        <p class="panel-text">
-          Revisa solicitudes nuevas y administra financiamientos
-          especiales para obras y mejoras.
-        </p>
-
-        <ul class="mini-list">
-
-          <li *ngFor="let request of solicitudesFinanciamiento">
-
-            <strong>
-              {{ request?.cliente || 'Sin cliente' }}
-            </strong>
-
-            <span>
-              ${{ request?.monto ?? 0 }}
-            </span>
-
-            <span class="status small">
-              {{ request?.estado || 'SIN ESTADO' }}
-            </span>
-
-          </li>
-
-        </ul>
-
-      </section>
-
-      <!-- TURNOS -->
-      <section class="panel panel-accent">
-
-        <h2>📅 Turnos programados</h2>
-
-        <ul class="mini-list">
-
-          <li *ngFor="let shift of turnos">
-
-            <div>
-
-              <strong>
-                {{ shift?.dia || '---' }}
-              </strong>
-
-              <span>
-                {{ shift?.operador || '---' }}
-              </span>
-
-            </div>
-
-            <div>
-              {{ shift?.hora || '---' }}
-            </div>
-
-          </li>
-
-        </ul>
-
-      </section>
-
-      <!-- REPORTES -->
-      <section class="panel panel-reports">
-
-        <h2>📈 Reportes</h2>
-
-        <div class="report-list">
-
-          <a
-            *ngFor="let report of reportes"
-            class="report-card"
-            routerLink="/admin/generar-informes">
-
-            📄 {{ report }}
-
-          </a>
+          <a routerLink="/admin/crear-usuario" class="action-card">👤 Crear usuario</a>
+          <a routerLink="/admin/asignar-roles" class="action-card">🔐 Asignar roles</a>
+          <a routerLink="/admin/turnos" class="action-card">📅 Configurar turnos</a>
+          <a routerLink="/admin/reportes" class="action-card">📊 Generar informes</a>
 
         </div>
 

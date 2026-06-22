@@ -1,22 +1,56 @@
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
 
-/* ========================= GLOBAL ========================= */
+/* =========================================================
+   🌐 GLOBAL
+========================================================= */
+
 html,
 body {
   margin: 0;
   padding: 0;
   height: 100%;
+  min-height: 100vh;
   font-family: 'Roboto', sans-serif;
   box-sizing: border-box;
+
+  /* 🔥 FONDO GLOBAL */
+  background:
+    linear-gradient(rgba(245, 242, 242, 0.1), rgba(0,0,0,0.01)),
+    url('/assets/kanenori-landscape-7373484_1920.jpg');
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
+/* box sizing global */
 *,
 *::before,
 *::after {
   box-sizing: inherit;
 }
 
-/* ========================= LAYOUT ========================= */
+/* =========================================================
+   🔥 FIX GLOBAL (ANGULAR + MATERIAL)
+========================================================= */
+
+app-root,
+.layout,
+.main-content,
+.page-content,
+mat-sidenav-container,
+mat-sidenav-content,
+mat-drawer-container,
+mat-drawer-content,
+.mat-drawer-inner-container {
+  background: transparent !important;
+}
+
+/* =========================================================
+   🧱 LAYOUT
+========================================================= */
+
 .layout {
   display: flex;
   min-height: 100vh;
@@ -73,45 +107,48 @@ body {
 }
 
 /* =========================================================
-   🧾 PRINT FIX (VERSIÓN ESTABLE - SIN ROMPER LAYOUT)
+   🧾 PRINT
 ========================================================= */
+
 @media print {
 
-  /* 🔥 1. OCULTAR TODO EL LAYOUT GLOBAL */
   .layout,
   .sidebar,
-  .topbar {
+  .topbar,
+  .invoice-actions,
+  .modal-backdrop {
     display: none !important;
   }
 
-  /* 🔥 2. ASEGURAR QUE SOLO SE IMPRIMA LA FACTURA */
   app-factura {
     display: block !important;
     width: 100% !important;
   }
 
-  /* 🔥 3. RESET GENERAL */
-  body, html {
+  html,
+  body {
     height: auto !important;
     overflow: visible !important;
     background: white !important;
   }
 
-  /* ================= FACTURA ================= */
+  .invoice-page,
+  .invoice-card {
+    background: white !important;
+  }
 
   .invoice-page {
     padding: 0 !important;
     margin: 0 !important;
-    background: white !important;
   }
 
   .invoice-card {
     box-shadow: none !important;
     border-radius: 0 !important;
     max-width: 100% !important;
+    break-inside: avoid;
   }
 
-  /* 🔥 CLAVE REAL DEL FIX: NO FLEX EN HEADER EN PRINT */
   .invoice-header {
     display: block !important;
     width: 100% !important;
@@ -131,21 +168,9 @@ body {
     justify-content: space-between !important;
   }
 
-  /* mantener colores */
   .invoice-header,
   .invoice-table .header {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
-  }
-
-  /* evitar cortes raros */
-  .invoice-card {
-    break-inside: avoid;
-  }
-
-  /* ocultar UI */
-  .invoice-actions,
-  .modal-backdrop {
-    display: none !important;
   }
 }

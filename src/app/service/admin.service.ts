@@ -3,6 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environments';
 
+
+// =======================
+// DASHBOARD
+// =======================
 export interface ResumenDashboard {
   users: number;
   paymentsToday: number;
@@ -10,25 +14,50 @@ export interface ResumenDashboard {
   tomorrowShifts: number;
 }
 
+
+// =======================
+// PAGOS (alineado con backend)
+// =======================
 export interface Pago {
-  factura?: any;
+  id?: number;
+  factura?: {
+    id?: number;
+    cliente?: {
+      id?: number;
+      nombre?: string;
+    };
+  };
   fechaPago?: string;
   estado?: string;
   monto?: number;
 }
 
+
+// =======================
+// FACTURAS (CORREGIDO con Java)
+// =======================
 export interface Factura {
-  cliente?: any;
-  fecha?: string;
+  id?: number;
+  cliente?: {
+    id?: number;
+    nombre?: string;
+  };
+  fechaEmision?: string;   // ✔ antes era "fecha"
   estado?: string;
-  total?: number;
+  totalPagar?: number;     // ✔ antes era "total"
 }
 
+
+// =======================
+// TURNOS
+// =======================
 export interface Turno {
+  id?: number;
   dia?: string;
   operador?: string;
   hora?: string;
 }
+
 
 @Injectable({
   providedIn: 'root'

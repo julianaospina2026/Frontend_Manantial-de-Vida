@@ -41,9 +41,13 @@ export class CrearUsuarioComponent {
       !this.usuario.username ||
       !this.usuario.password
     ) {
-      alert('Terminar de llenar los campos');
+      alert('Debe completar todos los campos obligatorios');
       return;
     }
+
+    console.log('=================================');
+    console.log('USUARIO A ENVIAR:', this.usuario);
+    console.log('=================================');
 
     this.http.post(
       'http://localhost:8080/api/usuarios',
@@ -52,7 +56,7 @@ export class CrearUsuarioComponent {
 
       next: (respuesta) => {
 
-        console.log('Usuario creado', respuesta);
+        console.log('Usuario creado:', respuesta);
 
         alert('Usuario creado correctamente');
 
@@ -67,12 +71,27 @@ export class CrearUsuarioComponent {
             id: 4
           }
         };
+
       },
 
       error: (error) => {
-        console.error(error);
-        alert('Error al crear usuario');
+
+        console.error('ERROR COMPLETO:', error);
+
+        if (error.error) {
+          alert(
+            typeof error.error === 'string'
+              ? error.error
+              : JSON.stringify(error.error)
+          );
+        } else {
+          alert('Error al crear usuario');
+        }
+
       }
+
     });
+
   }
+
 }

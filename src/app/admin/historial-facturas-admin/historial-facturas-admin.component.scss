@@ -1,0 +1,67 @@
+.invoice-history{
+  padding:40px;
+}
+
+.history-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:25px;
+}
+
+.history-header h2{
+  color:#0b5c89;
+  margin:0;
+}
+
+.search-box{
+  display:flex;
+  gap:10px;
+}
+
+.search-box input{
+  width:300px;
+  padding:12px;
+  border:1px solid #dbe3ea;
+  border-radius:8px;
+}
+
+.search-box button{
+  background:#0b5c89;
+  color:white;
+  border:none;
+  padding:12px 20px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.invoice-table{
+  width:100%;
+  border-collapse:collapse;
+  background:white;
+}
+
+.invoice-table th{
+  background:#0b5c89;
+  color:white;
+  padding:15px;
+  text-align:left;
+}
+
+.invoice-table td{
+  padding:15px;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.invoice-table tr:hover{
+  background:#f8fafc;
+}
+
+.btn-view{
+  background:#10b981;
+  color:white;
+  border:none;
+  padding:8px 15px;
+  border-radius:6px;
+  cursor:pointer;
+}

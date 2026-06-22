@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { HistorialPagosAdminComponent } from './admin/historial-pagos-admin/historial-pagos-admin.component';
+import { HistorialFacturasComponent } from './admin/historial-facturas-admin/historial-facturas-admin.component';
 
 // ========================
 // PÚBLICO
@@ -153,15 +155,16 @@ export const routes: Routes = [
   },
 
   {
-    path: 'admin/pagos',
-    component: PagoComponent,
+    path: 'admin/historial-pagos',
+    component: HistorialPagosAdminComponent,
     canActivate: [roleGuard],
     data: { expectedRole: 'ADMINISTRADOR' }
   },
 
+  // ✅ AQUÍ ESTÁ LA CORRECCIÓN IMPORTANTE
   {
     path: 'admin/facturacion',
-    component: FacturaComponent,
+    component: HistorialFacturasComponent,
     canActivate: [roleGuard],
     data: { expectedRole: 'ADMINISTRADOR' }
   },

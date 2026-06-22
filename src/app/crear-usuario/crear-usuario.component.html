@@ -10,45 +10,46 @@
 
     <nav>
 
-  <a routerLink="/administrador/panel" class="menu-item">
-    🏠 Panel Principal
-  </a>
+      <a routerLink="/administrador/panel" class="menu-item">
+        🏠 Panel Principal
+      </a>
 
-  <h4 class="menu-title">
-    Usuarios
-  </h4>
+      <h4 class="menu-title">
+        Usuarios
+      </h4>
 
-  <a routerLink="/usuarios" class="submenu">
-    • Listado de Usuarios
-  </a>
+      <a routerLink="/usuarios" class="submenu">
+        • Listado de Usuarios
+      </a>
 
-  <a routerLink="/admin/crear-usuario" class="submenu active">
-    • Crear Usuario
-  </a>
+      <a
+        routerLink="/admin/crear-usuario"
+        class="submenu active">
+        • Crear Usuario
+      </a>
 
-  <a routerLink="/admin/pagos" class="menu-item">
-  💳 Pagos
-</a>
+      <a routerLink="/admin/pagos" class="menu-item">
+        💳 Pagos
+      </a>
 
-<a routerLink="/admin/facturacion" class="menu-item">
-  📄 Facturación
-</a>
+      <a routerLink="/admin/facturacion" class="menu-item">
+        📄 Facturación
+      </a>
 
-<a routerLink="/admin/financiamiento" class="menu-item">
-  💰 Financiamiento
-</a>
+      <a routerLink="/admin/financiamiento" class="menu-item">
+        💰 Financiamiento
+      </a>
 
-<a routerLink="/admin/turnos" class="menu-item">
-  📅 Turnos
-</a>
+      <a routerLink="/admin/turnos" class="menu-item">
+        📅 Turnos
+      </a>
 
-<a routerLink="/admin/reportes" class="menu-item">
-  📊 Reportes
-</a>
+      <a routerLink="/admin/reportes" class="menu-item">
+        📊 Reportes
+      </a>
 
-  
+    </nav>
 
-</nav>
   </aside>
 
   <!-- CONTENIDO -->
@@ -63,10 +64,13 @@
         </div>
 
         <div>
+
           <h1>Crear Nuevo Usuario</h1>
+
           <p>
             Complete el formulario para registrar un nuevo usuario en el sistema.
           </p>
+
         </div>
 
       </div>
@@ -78,19 +82,25 @@
         <div class="fila">
 
           <div class="campo">
+
             <label>Nombre Completo</label>
+
             <input
               type="text"
               [(ngModel)]="usuario.nombreCompleto"
               name="nombreCompleto">
+
           </div>
 
           <div class="campo">
+
             <label>Cédula</label>
+
             <input
               type="text"
               [(ngModel)]="usuario.cedula"
               name="cedula">
+
           </div>
 
         </div>
@@ -98,19 +108,25 @@
         <div class="fila">
 
           <div class="campo">
+
             <label>Correo Electrónico</label>
+
             <input
               type="email"
               [(ngModel)]="usuario.email"
               name="email">
+
           </div>
 
           <div class="campo">
+
             <label>Usuario</label>
+
             <input
               type="text"
               [(ngModel)]="usuario.username"
               name="username">
+
           </div>
 
         </div>
@@ -118,11 +134,14 @@
         <div class="fila">
 
           <div class="campo full">
+
             <label>Contraseña</label>
+
             <input
               type="password"
               [(ngModel)]="usuario.password"
               name="password">
+
           </div>
 
         </div>
@@ -137,10 +156,21 @@
               [(ngModel)]="usuario.rol.id"
               name="rol">
 
-              <option [value]="1">Administrador</option>
-              <option [value]="2">Operador</option>
-              <option [value]="3">Presidente</option>
-              <option [value]="4">Usuario</option>
+              <option [value]="1">
+                Administrador
+              </option>
+
+              <option [value]="2">
+                Operador
+              </option>
+
+              <option [value]="3">
+                Presidente
+              </option>
+
+              <option [value]="4">
+                Usuario
+              </option>
 
             </select>
 

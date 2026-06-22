@@ -1,0 +1,85 @@
+<h1 style="color:red">
+  HISTORIAL FACTURAS CARGADO
+</h1>
+
+<div class="invoice-history">
+
+  <div class="history-header">
+    <h2>Historial de Facturas</h2>
+
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Buscar por ID de factura"
+        [(ngModel)]="numeroFactura">
+
+      <button (click)="buscarFactura()">
+        Buscar
+      </button>
+
+      <button (click)="limpiarBusqueda()">
+        Limpiar
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <div *ngIf="cargando">
+    Cargando facturas...
+  </div>
+
+  <table class="invoice-table" *ngIf="!cargando">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Cliente</th>
+        <th>Fecha Emisión</th>
+        <th>Total</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let factura of facturasFiltradas || []">
+
+        <td>
+          {{ factura.id ?? '—' }}
+        </td>
+
+        <td>
+          {{ factura.lectura?.cliente?.nombre ?? 'Sin cliente' }}
+        </td>
+
+        <td>
+          {{ factura.fechaEmision ? (factura.fechaEmision | date:'short') : '—' }}
+        </td>
+
+        <td>
+          ${{ factura.totalPagar ?? 0 }}
+        </td>
+
+        <td>
+          {{ factura.estado ?? 'Sin estado' }}
+        </td>
+
+        <td>
+          <button
+            class="btn-view"
+            (click)="verFactura(factura)">
+            Ver
+          </button>
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!cargando && (facturasFiltradas?.length ?? 0) === 0">
+    No hay facturas disponibles
+  </div>
+
+</div>
